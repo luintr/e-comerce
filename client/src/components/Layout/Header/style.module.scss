@@ -1,0 +1,23 @@
+.header {
+  height: rem(60px);
+
+  &_container {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .logo {
+      font-size: rem(28px);
+    }
+
+    .navigate {
+      display: flex;
+      gap: rem(10px);
+
+      &_item {
+        cursor: pointer;
+      }
+    }
+  }
+}
