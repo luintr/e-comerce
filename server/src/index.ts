@@ -1,11 +1,13 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import { products } from './data/product';
 import cors from 'cors';
+import connectDB from './config/db';
+import productRoute from './routes/productRoute'
 
 require('dotenv').config()
-
 const app = express()
+
+connectDB()
 
 app.use(cors());
 app.set("port", process.env.PORT);
@@ -16,14 +18,9 @@ app.get("/", (_req, res) => {
   res.send("API Running");
 });
 
-app.get('/api/products', (req, res) =>{
-  res.send({data: products})
-})
+app.use('/api/products', productRoute)
 
-app.get('/api/products/:id', (req, res)=> {
-  const product = products.find(item => item.id.toString() === req.params.id)
-  res.send({data: product})
-})
+
 const port = app.get("port");
 
 const server = app.listen(port, () =>

@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "npx nodemon"
+    "dev": "npx nodemon",
+    "data:imp": "npx ts-node ./src/seeding.ts -h",
+    "data:del": "npx ts-node ./src/seeding.ts -d"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

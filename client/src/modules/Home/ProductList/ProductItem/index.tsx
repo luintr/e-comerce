@@ -6,7 +6,7 @@ import s from './style.module.scss';
 import Link from 'next/link';
 
 export type IProductItem = {
-  id: number,
+  _id: string,
   name: string,
   image: string,
   description: string,
@@ -19,16 +19,16 @@ export type IProductItem = {
 };
 
 const ProductItem = ({ data }: { data: IProductItem }): React.ReactElement => {
-  const { id, image, name, price } = data;
+  const { _id, image, name, price } = data;
 
   return (
     <div className={`${s.productItem} col-span-3`}>
-      <Link href={`/product/${id}`}>
+      <Link href={`/product/${_id}`}>
         <img className={s.productItem_image} src={image} alt={name} />
       </Link>
 
       <div className={s.productItem_content}>
-        <Link href={`/product/${id}`} className={s.productItem_content_title}>
+        <Link href={`/product/${_id}`} className={s.productItem_content_title}>
           {name}
         </Link>
         <p className={s.productItem_content_price}>${price}</p>
