@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:6969",
+  "proxy": "http://localhost:6969/",
   "engines": {
     "node": ">=14.0.0",
     "yarn": ">=1.22.0",

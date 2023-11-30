@@ -3,7 +3,7 @@
 import React from 'react';
 
 type IProduct = {
-  _id: number;
+  id: number;
   name: string;
   image: string;
   description: string;
@@ -17,7 +17,7 @@ type IProduct = {
 
 const ProductModules = ({ data }: { data: IProduct }) => {
   const {
-    _id,
+    id,
     name,
     image,
     description,
