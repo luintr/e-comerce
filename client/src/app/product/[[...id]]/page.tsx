@@ -1,14 +1,18 @@
 'use client';
 
-import { useGetProduct } from '@/api/getProduct';
 import ProductModules from '@/modules/Product';
+import { useGetProductDetailQuery } from '@/store/slices/productApiSlice';
 import React from 'react';
 
 const Product = ({ params }: any): React.ReactElement => {
-  const { products } = useGetProduct();
   const [productId] = params.id;
-  const product = products.find(item => item._id === productId);
-  return <>{product && <ProductModules data={product} />}</>;
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useGetProductDetailQuery(productId);
+
+  return <>{product && <ProductModules data={product.data} />}</>;
 };
 
 export default Product;

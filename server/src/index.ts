@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors';
 import connectDB from './config/db';
 import productRoute from './routes/productRoute'
+import { errorHandler, notFound } from './middleware/errorHandler';
 
 require('dotenv').config()
 const app = express()
@@ -19,6 +20,9 @@ app.get("/", (_req, res) => {
 });
 
 app.use('/api/products', productRoute)
+
+app.use(notFound)
+app.use(errorHandler)
 
 
 const port = app.get("port");

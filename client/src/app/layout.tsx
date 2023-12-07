@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Layout className={contentFont.className}>{children}</Layout>
+        <Layout className={contentFont.className}>{children}</Layout>
     </html>
   );
 }
