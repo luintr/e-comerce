@@ -25,6 +25,7 @@ const ProductModules = ({ data }: { data: IProduct }) => {
     rating,
     numReviews,
   } = data;
+
   return (
     <div>
       <div>
@@ -41,7 +42,7 @@ const ProductModules = ({ data }: { data: IProduct }) => {
       </div>
 
       <div>
-        status: {countInStock > 0 ? 'Out of stock': 'In stock'}
+        status: {countInStock <= 0 ? 'Out of stock': 'In stock'}
       </div>
       <button>Add to cart</button>
     </div>
