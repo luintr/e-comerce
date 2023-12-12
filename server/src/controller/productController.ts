@@ -1,6 +1,9 @@
 import asyncHandler from "../middleware/asyncHandler";
 import Product from "../model/productModel";
 
+// @desc      Fetch all Products
+// @route     GET /api/products
+// @access    Public
 export const getProducts = asyncHandler(async (req: any, res: any) => {
   const products = await Product.find({})
   if (products) {
@@ -10,6 +13,9 @@ export const getProducts = asyncHandler(async (req: any, res: any) => {
   }
 })
 
+// @desc      Fetch a Product
+// @route     GET /api/products/:id
+// @access    Public
 export const getProductbyId = asyncHandler(async (req: any, res: any) => {
   const product = await Product.findById(req.params.id)
   if (product) {

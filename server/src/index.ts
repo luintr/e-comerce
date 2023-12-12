@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors';
 import connectDB from './config/db';
 import productRoute from './routes/productRoute'
+import userRoute from './routes/userRoute'
 import { errorHandler, notFound } from './middleware/errorHandler';
 
 require('dotenv').config()
@@ -20,6 +21,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use('/api/products', productRoute)
+app.use('/api/users', userRoute)
 
 app.use(notFound)
 app.use(errorHandler)
