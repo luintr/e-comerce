@@ -14,7 +14,7 @@ connectDB()
 app.use(cors());
 app.set("port", process.env.PORT);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (_req, res) => {
   res.send("API Running");
