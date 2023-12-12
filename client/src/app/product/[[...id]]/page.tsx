@@ -12,6 +12,7 @@ const Product = ({ params }: any): React.ReactElement => {
     error,
   } = useGetProductDetailQuery(productId);
 
+
   return <>{product && <ProductModules data={product.data} />}</>;
 };
 

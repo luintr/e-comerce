@@ -1,10 +1,11 @@
+import { ICartItem } from "@/types/global";
+import { updateCart } from "@/utils/cartUtils";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = JSON.parse(localStorage.getItem("cart") ?? '{"cartItems": []}');
+const isLocalStorageAvailable = typeof localStorage !== 'undefined';
 
-const addDecimals = (num: number) => {
-  return (Math.round(num * 100) / 100).toFixed(2)
-}
+const initialState = isLocalStorageAvailable ? JSON.parse(localStorage.getItem("cart") ?? '{"cartItems": []}') : { cartItems: [] };
+
 
 const cartSlice = createSlice({
   name: "cart",
@@ -12,18 +13,24 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-      const existItem = state.cartItems.find((x: any) => x._id === item._id)
+      const existItem = state.cartItems.find((x: ICartItem) => x._id === item._id)
 
       if (existItem) {
-        state.cartItems = state.cartItems.map((x: any) => x._id === existItem._id ? item : x)
+        state.cartItems = state.cartItems.map((x: ICartItem) => x._id === existItem._id ? item : x)
       } else {
         state.cartItems = [...state.cartItems, item]
       }
 
-      //Caculate items price
-      state.itemsPrice = addDecimals(state.cartItems.reduce((acc: any, item: any) => acc + item.price * item.qty, 0))
+      return updateCart(state)
+    },
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((x: ICartItem) => x._id !== action.payload)
+
+      return updateCart(state)
     }
   }
 })
+
+export const { addToCart, removeFromCart } = cartSlice.actions
 
 export default cartSlice.reducer
