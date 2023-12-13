@@ -14,7 +14,7 @@ export const authUser = asyncHandler(async (req: Request, res: Response) => {
 
     generateToken(res, user._id)
 
-    res.send({
+    res.status(200).send({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -70,14 +70,48 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 // @route     GET /api/users/profile
 // @access    Public
 export const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
-  res.send('get user profile')
+  // @ts-ignore:next-line
+  const user = await User.findById(req.user._id)
+  if (user) {
+    res.status(200).send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin
+    })
+  } else {
+    res.status(400)
+    throw new Error('User not found')
+  }
 })
 
 // @desc      Update User Profile
 // @route     PUT /api/users/profile
 // @access    Private
 export const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
-  res.send('update user profile')
+  // @ts-ignore:next-line
+  const user = await User.findById(req.user._id)
+  if (user) {
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+
+    if (req.body.password) {
+      user.password = req.body.password
+    }
+
+    const updateUser = await user.save()
+
+    res.status(200).send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin
+    })
+  } else {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
 })
 
 // @desc      Get Users
