@@ -20,7 +20,9 @@ const ProfileHeader = ({ data }: { data: any }) => {
 
   const logoutHandler = async () => {
     try {
+      // @ts-ignore:next-line
       await logoutApiCall().unwrap();
+      // @ts-ignore:next-line
       dispatch(logout());
       router.push('/login');
     } catch (error) {
