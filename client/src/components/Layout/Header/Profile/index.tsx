@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
 import s from './styles.module.scss';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { useLogoutMutation } from '@/store/slices/usersApiSlice';
+import { logout } from '@/store/slices/authSlice';
 
 const ProfileHeader = ({ data }: { data: any }) => {
   const [optionState, setOptionState] = useState<boolean>(false);
+  const [logoutApiCall] = useLogoutMutation();
   const { name } = data;
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const toggleOptionBox = () => {
     setOptionState(!optionState);
   };
 
-  const logoutHandler = () => {
-    console.log('logout');
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      router.push('/login');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className={s.profile}>
