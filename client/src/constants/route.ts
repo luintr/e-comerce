@@ -1,6 +1,8 @@
 export const ROUTE_PATH = {
   HOME: '/',
   CART: '/cart',
+  LOGIN: '/login',
+  REGISTER: '/register'
 }
 
 export const BASE_URL = 'http://localhost:6969'

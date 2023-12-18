@@ -30,7 +30,9 @@ const Header = (): React.ReactElement => {
             Cart
             {qtyItems.length > 0 && <span>{qtyItems.length}</span>}
           </Link>
-          <div className={s.navigate_item}>Sign In</div>
+          <Link href={ROUTE_PATH.LOGIN} className={s.navigate_item}>
+            Sign In
+          </Link>
         </div>
       </Container>
     </header>
