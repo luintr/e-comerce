@@ -7,11 +7,19 @@ import Link from 'next/link';
 import { ROUTE_PATH } from '@/constants/route';
 import { titleFont } from '@/utils/fonts';
 import { useSelector } from 'react-redux';
+import ProfileHeader from './Profile';
 
 const Header = (): React.ReactElement => {
   const [qtyItems, setQtyItems] = useState<[]>([]);
+  const [user, setUser] = useState({});
   // @ts-ignore:next-line
   const { cartItems } = useSelector(state => state.cart);
+  // @ts-ignore:next-line
+  const { userInfo } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    setUser(userInfo);
+  }, [userInfo]);
 
   useEffect(() => {
     setQtyItems(cartItems);
@@ -30,9 +38,13 @@ const Header = (): React.ReactElement => {
             Cart
             {qtyItems.length > 0 && <span>{qtyItems.length}</span>}
           </Link>
-          <Link href={ROUTE_PATH.LOGIN} className={s.navigate_item}>
-            Sign In
-          </Link>
+          {user ? (
+            <ProfileHeader data={user} />
+          ) : (
+            <Link href={ROUTE_PATH.LOGIN} className={s.navigate_item}>
+              Sign In
+            </Link>
+          )}
         </div>
       </Container>
     </header>
