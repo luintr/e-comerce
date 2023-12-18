@@ -2,6 +2,7 @@ import asyncHandler from "../middleware/asyncHandler";
 import User from "../model/userModel";
 import { Request, Response } from "express";
 import generateToken from "../utils/generateToken";
+
 // @desc      Auth user & get Token
 // @route     POST /api/users/login
 // @access    Public

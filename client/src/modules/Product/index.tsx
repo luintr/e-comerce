@@ -1,8 +1,8 @@
 'use client';
 
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { addToCart } from '@/store/slices/cartSlice';
+import { Select as AntdSelect } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
@@ -20,6 +20,8 @@ type IProduct = {
 };
 
 const ProductModules = ({ data }: { data: IProduct }) => {
+  const { Option } = AntdSelect;
+
   const { name, image, description, price, countInStock, rating, numReviews } =
     data;
 
@@ -56,23 +58,16 @@ const ProductModules = ({ data }: { data: IProduct }) => {
             <div>
               <div>Qty</div>
               <div>
-                <FormControl>
-                  <InputLabel id="demo-simple-select-label">Qty</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={qty}
-                    label="Age"
-                    onChange={e => setQty(Number(e.target.value))}
-                  >
-                    {/* <MenuItem value={10}>Ten</MenuItem> */}
-                    {Array.from({ length: data.countInStock }, (_, index) => (
-                      <MenuItem key={index} value={index + 1}>
-                        {index + 1}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <AntdSelect
+                  value={qty.toString()}
+                  onChange={value => setQty(Number(value))}
+                >
+                  {Array.from({ length: data.countInStock }, (_, index) => (
+                    <Option key={index} value={(index + 1).toString()}>
+                      {index + 1}
+                    </Option>
+                  ))}
+                </AntdSelect>
               </div>
             </div>
           </div>

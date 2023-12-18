@@ -7,14 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ROUTE_PATH } from '@/constants/route';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Select as AntdSelect } from 'antd';
 import { ICartItem } from '@/types/global';
 import { addToCart, removeFromCart } from '@/store/slices/cartSlice';
 
 const CartModule = () => {
+  const { Option } = AntdSelect;
+
   const [cartList, setCartList] = useState<ICartItem[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
+
 
   // @ts-ignore:next-line
   const { cartItems } = useSelector(
@@ -60,24 +63,16 @@ const CartModule = () => {
                   <p className={s.cartItem_price}>{item.price}</p>
                 </div>
                 <div className={s.cartItem_qty}>
-                  <FormControl>
-                    <InputLabel id="demo-simple-select-label">Qty</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={item.qty}
-                      label="Age"
-                      onChange={e =>
-                        addtoCartHandler(item, Number(e.target.value))
-                      }
-                    >
-                      {Array.from({ length: item.countInStock }, (_, index) => (
-                        <MenuItem key={index} value={index + 1}>
-                          {index + 1}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <AntdSelect
+                    value={item.qty.toString()}
+                    onChange={value => addtoCartHandler(item, Number(value))}
+                  >
+                    {Array.from({ length: item.countInStock }, (_, index) => (
+                      <Option key={index} value={(index + 1).toString()}>
+                        {index + 1}
+                      </Option>
+                    ))}
+                  </AntdSelect>
                 </div>
                 <div
                   className={s.cartItem_delete}
@@ -101,7 +96,11 @@ const CartModule = () => {
             </div>
 
             <div>
-              <button type="button" disabled={cartItems.length === 0}>
+              <button
+                type="button"
+                disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
+              >
                 Proceed to Checkout
               </button>
             </div>
