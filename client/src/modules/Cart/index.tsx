@@ -35,7 +35,7 @@ const CartModule = () => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    router.push('/login?redirect=/shipping');
+    router.push('/login?redirect=/payment');
   };
 
   return (
