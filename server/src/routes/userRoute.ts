@@ -3,18 +3,17 @@ import { authUser, deleteUser, getUserById, getUserProfile, getUsers, logoutUser
 import { admin, protect } from "../middleware/authMiddleware";
 const router = express.Router()
 
-router.route('/')
-      .post(registerUser)
-      .get(protect, admin, getUsers)
+router.route('/').get(protect, admin, getUsers)
 
 router.post('/logout', logoutUser)
 
 router.post('/auth', authUser)
+router.post('/register', registerUser)
 
 router.route('/profile')
       .get(protect, getUserProfile)
       .put(protect, updateUserProfile)
-      
+
 router.route('/:id')
       .delete(protect, admin, deleteUser)
       .get(protect, admin, getUserById)

@@ -11,11 +11,10 @@ import Link from 'next/link';
 
 const LoginModule = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [login, { isLoading }] = useLoginMutation();
 
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const [login, { isLoading }] = useLoginMutation();
 
   // @ts-ignore:next-line
   const { userInfo } = useSelector(state => state.auth);
@@ -43,6 +42,7 @@ const LoginModule = () => {
       });
     }
   };
+
   const onFinishFailed = (errorInfo: any) => {
     messageApi.open({
       type: 'error',
@@ -55,6 +55,7 @@ const LoginModule = () => {
   return (
     <div className={`${s.login} container grid grid-cols-12`}>
       {contextHolder}
+      <h1>Sign In</h1>
       <Form
         name="basic"
         initialValues={{
