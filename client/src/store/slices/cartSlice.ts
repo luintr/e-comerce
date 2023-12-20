@@ -40,8 +40,8 @@ const cartSlice = createSlice({
 
       return updateCart(state)
     },
-    clearCartItems: (state, action) => {
-      state.cartItems = action.payload
+    clearCartItems: (state, ) => {
+      state.cartItems = []
       return updateCart(state)
     }
   }

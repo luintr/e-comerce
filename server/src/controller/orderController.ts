@@ -27,6 +27,9 @@ export const addOrderItems = asyncHandler(async (req: Request, res: Response) =>
       shippingPrice,
       totalPrice
     })
+
+    const createOrder = await order.save();
+    res.status(200).send(createOrder)
   }
 })
 
@@ -38,7 +41,7 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
   const orders = await Order.find({ user: req.user._id })
   res.status(200).send(orders)
 })
-
+ 
 // @desc      Get order by id
 // @route     GET /api/orders/:id
 // @access    Private

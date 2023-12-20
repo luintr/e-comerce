@@ -45,13 +45,20 @@ const PaymentModule = () => {
     dispatch(savePaymentMethod(value));
 
     try {
-      const res = await createOrder(data).unwrap();
-      dispatch(clearCartItems([]));
+      await createOrder({
+        orderItems: data.cartItems,
+        shippingAddress: values,
+        paymentMethod: value,
+        itemsPrice: data.itemsPrice,
+        taxPrice: data.taxPrice,
+        shippingPrice: data.shippingPrice,
+        totalPrice: data.totalPrice,
+      }).unwrap();
+      dispatch(clearCartItems());
+      router.push('/thankyou');
     } catch (error) {
       console.log(error);
     }
-
-    router.push('/thankyou');
   };
 
   return (
