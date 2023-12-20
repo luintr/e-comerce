@@ -3,46 +3,62 @@
 import React, { useEffect, useState } from 'react';
 import s from './style.module.scss';
 import { Button, Form, Input, Radio, Space, message } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { paymentMethod } from '@/constants/method';
 import {
+  clearCartItems,
   savePaymentMethod,
   saveShippingAddress,
 } from '@/store/slices/cartSlice';
+import Link from 'next/link';
+import { useCreateOrderMutation } from '@/store/slices/orderApiSlice';
 
 const PaymentModule = () => {
-  const [messageApi, contextHolder] = message.useMessage();
   const [value, setValue] = useState<string>('');
+  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   const dispatch = useDispatch();
   const router = useRouter();
-  const localUser = localStorage.getItem('userInfo');
+
+  const data =
+    typeof window !== 'undefined' &&
+    JSON.parse(localStorage.getItem('cart') || '{}');
+  const { cartItems, itemsPrice, shippingPrice, taxPrice, totalPrice } = data;
 
   useEffect(() => {
-    if (!localUser) {
-      router.push('/login');
+    if (typeof window !== 'undefined') {
+      const localUser = localStorage.getItem('userInfo');
+      const localCart = localStorage.getItem('cart');
+      if (!localUser || !localCart) {
+        router.push('/login');
+      }
     }
-  }, [localUser, router]);
+  }, [router]);
 
-  // @ts-ignore:next-line
-  const cart = useSelector(state => state.cart);
-  const { shippingAddress } = cart;
-
-  const onChange = (e: any) => {
+  const onChangeRadio = (e: any) => {
     setValue(e.target.value);
   };
 
   const onFinish = async (values: any) => {
     dispatch(saveShippingAddress(values));
     dispatch(savePaymentMethod(value));
-    router.push('/payment');
+
+    try {
+      const res = await createOrder(data).unwrap();
+      dispatch(clearCartItems([]));
+    } catch (error) {
+      console.log(error);
+    }
+
+    router.push('/thankyou');
   };
+
   return (
     <div className={`${s.shipping} container grid grid-cols-12`}>
-      <h1>Shipping</h1>
+      <h1 className={`col-span-12`}>Shipping</h1>
 
-      <div className={`${s.shippingForm} col-span-12`}>
+      <div className={`${s.shippingForm} col-span-6`}>
         <Form
           name="basic"
           initialValues={{
@@ -52,6 +68,38 @@ const PaymentModule = () => {
           autoComplete="on"
           className={``}
         >
+          <Form.Item
+            label="Name"
+            name="name"
+            style={{
+              width: '100%',
+            }}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your name!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Phone number"
+            name="number"
+            style={{
+              width: '100%',
+            }}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your number!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="Address"
             name="address"
@@ -116,7 +164,7 @@ const PaymentModule = () => {
             <Input />
           </Form.Item>
 
-          <Radio.Group onChange={onChange} value={value}>
+          <Radio.Group onChange={onChangeRadio} value={value}>
             <Space direction="vertical">
               {paymentMethod.map((item, index) => (
                 <Radio key={index} value={item.value}>
@@ -128,10 +176,29 @@ const PaymentModule = () => {
 
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Submit
+              Place an order
             </Button>
           </Form.Item>
         </Form>
+        {isLoading && <p>Loading ...</p>}
+      </div>
+
+      <div className={`col-span-6`}>
+        {cartItems.map((item: any, index: number) => (
+          <div key={index} className={s.orderItem}>
+            <img src={item.image} alt={item.name} />
+            <Link href={`/product/${item._id}`}>{item.name}</Link>
+            <p>
+              Price: ${item.price} X {item.qty}
+            </p>
+          </div>
+        ))}
+        <div className={s.sumary}>
+          <p>Subtotal: ${itemsPrice}</p>
+          <p>Shipping: {shippingPrice == 0 ? 'Free ship' : shippingPrice}</p>
+          <p>Tax: {taxPrice}</p>
+          <p>Total: {totalPrice}</p>
+        </div>
       </div>
     </div>
   );

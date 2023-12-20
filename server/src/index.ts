@@ -5,7 +5,7 @@ import cors from 'cors';
 import connectDB from './config/db';
 import productRoute from './routes/productRoute'
 import userRoute from './routes/userRoute'
-import orderRoute from './routes/userRoute'
+import orderRoute from './routes/orderRoute'
 import { errorHandler, notFound } from './middleware/errorHandler';
 
 require('dotenv').config()
