@@ -5,6 +5,18 @@ const request = axios.create({
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 });
 
+request.interceptors.request.use(function (config) {
+  const userInfo = localStorage.getItem('userInfo')
+  const token = userInfo && JSON.parse(userInfo).token
+
+  config.headers.Authorization =  token;
+  
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
 export type TDefaultResponse<T> = {
   status: number;
   message?: string;

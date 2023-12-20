@@ -13,10 +13,11 @@ import {
 } from '@/store/slices/cartSlice';
 import Link from 'next/link';
 import { useCreateOrderMutation } from '@/store/slices/orderApiSlice';
+import { createOrder } from '@/api/createOrder';
 
 const PaymentModule = () => {
   const [value, setValue] = useState<string>('');
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  // const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,6 +46,15 @@ const PaymentModule = () => {
     dispatch(savePaymentMethod(value));
 
     try {
+      // await createOrder({
+      //   orderItems: data.cartItems,
+      //   shippingAddress: values,
+      //   paymentMethod: value,
+      //   itemsPrice: data.itemsPrice,
+      //   taxPrice: data.taxPrice,
+      //   shippingPrice: data.shippingPrice,
+      //   totalPrice: data.totalPrice,
+      // }).unwrap();
       await createOrder({
         orderItems: data.cartItems,
         shippingAddress: values,
@@ -53,7 +63,7 @@ const PaymentModule = () => {
         taxPrice: data.taxPrice,
         shippingPrice: data.shippingPrice,
         totalPrice: data.totalPrice,
-      }).unwrap();
+      });
       dispatch(clearCartItems());
       router.push('/thankyou');
     } catch (error) {
@@ -187,7 +197,7 @@ const PaymentModule = () => {
             </Button>
           </Form.Item>
         </Form>
-        {isLoading && <p>Loading ...</p>}
+        {/* {isLoading && <p>Loading ...</p>} */}
       </div>
 
       <div className={`col-span-6`}>

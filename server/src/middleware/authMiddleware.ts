@@ -8,10 +8,15 @@ interface DecodedToken extends JwtPayload {
 }
 
 export const protect = asyncHandler(async (req, res, next) => {
-  let token;
+  let token: any;
+  console.log(req)
 
   //Read JWT from cookie
-  token = req.cookies.jwt
+  token = req.headers.authorization
+  console.log(token)
+  if (token == null) {
+    return res.status(403)
+  }
 
   const jwtSecret: Secret | undefined = process.env.JWT_SECRET;
 
@@ -25,7 +30,7 @@ export const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, jwtSecret) as DecodedToken
       // @ts-ignore:next-line
       req.user = await User.findById(decoded.userId).select('-password')
-      next()
+      return next()
     } catch (error) {
       console.log(error)
       res.status(401)
