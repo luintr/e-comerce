@@ -3,12 +3,12 @@ import s from './styles.module.scss';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { useLogoutMutation } from '@/store/slices/usersApiSlice';
-import { logout } from '@/store/slices/authSlice';
+import { removeUserStorage } from '@/store/slices/authSlice';
+import { logout } from '@/api/userAPI';
 
 const ProfileHeader = ({ data }: { data: any }) => {
   const [optionState, setOptionState] = useState<boolean>(false);
-  const [logoutApiCall] = useLogoutMutation();
+
   const { name } = data;
 
   const dispatch = useDispatch();
@@ -21,9 +21,9 @@ const ProfileHeader = ({ data }: { data: any }) => {
   const logoutHandler = async () => {
     try {
       // @ts-ignore:next-line
-      await logoutApiCall().unwrap();
+      const res = await logout();
       // @ts-ignore:next-line
-      dispatch(logout());
+      dispatch(removeUserStorage());
       router.push('/login');
     } catch (error) {
       console.log(error);

@@ -2,15 +2,19 @@ import axios from 'axios';
 
 const request = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_LOCAL_URL,
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Credentials': 'true'
+  },
 });
 
 request.interceptors.request.use(function (config) {
-  const userInfo = localStorage.getItem('userInfo')
+  const userInfo = typeof window !== 'undefined' && localStorage.getItem('userInfo')
   const token = userInfo && JSON.parse(userInfo).token
 
-  config.headers.Authorization =  token;
-  
+  config.headers.Authorization = token;
+
   return config;
 }, function (error) {
   // Do something with request error
@@ -30,10 +34,5 @@ export const get = async <T>(url: string, option?: any) => {
 
 export const post = async <T, K = any>(url: string, data: K, option?: any) => {
   const response = await request.post(url, data, option);
-  return response.data as TDefaultResponse<T>;
-};
-
-export const put = async <T, K = any>(url: string, data: K, option?: any) => {
-  const response = await request.put(url, data, option);
   return response.data as TDefaultResponse<T>;
 };

@@ -12,12 +12,10 @@ import {
   saveShippingAddress,
 } from '@/store/slices/cartSlice';
 import Link from 'next/link';
-import { useCreateOrderMutation } from '@/store/slices/orderApiSlice';
-import { createOrder } from '@/api/createOrder';
+import { createOrder } from '@/api/orderAPI';
 
 const PaymentModule = () => {
   const [value, setValue] = useState<string>('');
-  // const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -46,16 +44,7 @@ const PaymentModule = () => {
     dispatch(savePaymentMethod(value));
 
     try {
-      // await createOrder({
-      //   orderItems: data.cartItems,
-      //   shippingAddress: values,
-      //   paymentMethod: value,
-      //   itemsPrice: data.itemsPrice,
-      //   taxPrice: data.taxPrice,
-      //   shippingPrice: data.shippingPrice,
-      //   totalPrice: data.totalPrice,
-      // }).unwrap();
-      await createOrder({
+      const res = await createOrder({
         orderItems: data.cartItems,
         shippingAddress: values,
         paymentMethod: value,
@@ -65,7 +54,8 @@ const PaymentModule = () => {
         totalPrice: data.totalPrice,
       });
       dispatch(clearCartItems());
-      router.push('/thankyou');
+      // @ts-ignore:next-line
+      router.push(`order/${res._id}`);
     } catch (error) {
       console.log(error);
     }

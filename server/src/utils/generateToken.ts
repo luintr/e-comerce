@@ -13,12 +13,14 @@ const generateToken = (res: Response, userId: string) => {
     expiresIn: '30d'
   })
 
-  // res.cookie('jwt', token, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV !== 'development',
-  //   sameSite: 'strict',
-  //   maxAge: 30 * 24 * 60 * 60 * 1000
-  // });
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  });
 
   return token
 }

@@ -6,13 +6,12 @@ import { Button, Form, Input, message } from 'antd';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useRegisterMutation } from '@/store/slices/usersApiSlice';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { setCredentials } from '@/store/slices/authSlice';
+import { register } from '@/api/userAPI';
 
 const RegisterModule = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [register, { isLoading }] = useRegisterMutation();
 
   // @ts-ignore:next-line
   const { userInfo } = useSelector(state => state.auth);
@@ -31,7 +30,7 @@ const RegisterModule = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const res = await register(values).unwrap();
+      const res = await register(values);
       dispatch(setCredentials(res));
       router.push(redirect);
     } catch (err) {
@@ -143,7 +142,6 @@ const RegisterModule = () => {
             Submit
           </Button>
         </Form.Item>
-        {isLoading && <p>Loading ...</p>}
       </Form>
       <p>
        Already have account?{' '}

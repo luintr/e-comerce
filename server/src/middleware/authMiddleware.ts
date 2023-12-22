@@ -13,7 +13,6 @@ export const protect = asyncHandler(async (req, res, next) => {
 
   //Read JWT from cookie
   token = req.headers.authorization
-  console.log(token)
   if (token == null) {
     return res.status(403)
   }

@@ -5,13 +5,13 @@ import s from './style.module.scss';
 import { Button, Form, Input, message } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLoginMutation } from '@/store/slices/usersApiSlice';
 import { setCredentials } from '@/store/slices/authSlice';
+import { login } from '@/api/userAPI';
 import Link from 'next/link';
 
 const LoginModule = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [login, { isLoading }] = useLoginMutation();
+
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -30,7 +30,7 @@ const LoginModule = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const res = await login(values).unwrap();
+      const res = await login(values);
       dispatch(setCredentials(res));
       router.push(redirect);
     } catch (err) {
@@ -97,7 +97,6 @@ const LoginModule = () => {
             Submit
           </Button>
         </Form.Item>
-        {isLoading && <p>Loading ...</p>}
       </Form>
       <p>
         New Customer?{' '}
