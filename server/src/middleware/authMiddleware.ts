@@ -9,7 +9,6 @@ interface DecodedToken extends JwtPayload {
 
 export const protect = asyncHandler(async (req, res, next) => {
   let token: any;
-  console.log(req)
 
   //Read JWT from cookie
   token = req.headers.authorization
@@ -31,7 +30,6 @@ export const protect = asyncHandler(async (req, res, next) => {
       req.user = await User.findById(decoded.userId).select('-password')
       return next()
     } catch (error) {
-      console.log(error)
       res.status(401)
       throw new Error('Not authorized, token failed')
     }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import s from './style.module.scss';
 import { getOrderDetail } from '@/api/orderAPI';
+import { useSelector } from 'react-redux';
 
 type IOrderItem = {
   image: string;
@@ -44,12 +45,14 @@ type OrderData = {
 const OrderModule = ({ orderID }: { orderID: string }) => {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
 
+  // @ts-ignore:next-line
+  const { userInfo } = useSelector(state => state.auth);
+  console.log(userInfo);
   useEffect(() => {
     getOrderDetail(orderID).then((res: any) => {
       setOrderData(res);
     });
   }, []);
-  console.log(orderData);
 
   if (!orderData) {
     return <div>Loading...</div>;
@@ -87,6 +90,39 @@ const OrderModule = ({ orderID }: { orderID: string }) => {
             )}
           </div>
         </div>
+        <div>
+          <p>
+            <strong>Order Items</strong>
+          </p>
+          <div>
+            {orderData.orderItems.map(item => (
+              <div key={item._id} className={s.orderItem}>
+                <img src={item.image} alt="image" />
+                <p>{item.name}</p>
+                <p>Qty: {item.qty}</p>
+                <p>Price: ${item.price}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className={`col-span-6`}>
+        <p>Order Summary</p>
+        <p>
+          <strong>Items Price:</strong> ${orderData.itemsPrice}
+        </p>
+        <p>
+          <strong>Shipping:</strong>{' '}
+          {orderData.shippingPrice == 0
+            ? 'Free Ship'
+            : `$${orderData.shippingPrice}`}
+        </p>
+        <p>
+          <strong>Tax:</strong> ${orderData.taxPrice}
+        </p>
+        <p>
+          <strong>Total Price:</strong> ${orderData.totalPrice}
+        </p>
       </div>
     </div>
   );

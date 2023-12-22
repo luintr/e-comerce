@@ -57,7 +57,7 @@ export const getOrderById = asyncHandler(async (req: Request, res: Response) => 
 })
 
 // @desc      Update order to paid
-// @route     GET /api/orders/:id/pay
+// @route     PUT /api/orders/:id/pay
 // @access    Private
 export const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
   const order = await Order.findById(req.params.id)
@@ -79,7 +79,6 @@ export const updateOrderToPaid = asyncHandler(async (req: Request, res: Response
     res.status(404)
     throw new Error('Order not found')
   }
-
 })
 
 // @desc      Update order to delivered

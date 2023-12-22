@@ -19,13 +19,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
 
-app.get("/", (_req, res) => {
+app.get("/", (req, res) => {
   res.send("API Running");
 });
 
 app.use('/api/products', productRoute)
 app.use('/api/users', userRoute)
 app.use('/api/orders', orderRoute)
+
+app.get('api/config/paypal', (req, res) => res.send({ clientId: process.env.PAYPAL_CLIENT_ID }))
 
 app.use(notFound)
 app.use(errorHandler)

@@ -1,5 +1,5 @@
-import { ORDERS_URL } from "@/constants/route"
-import { get, post } from "./requestMethod"
+import { ORDERS_URL, PAYPAL_URL } from "@/constants/route"
+import { get, post, put } from "./requestMethod"
 
 export const createOrder = async (data: any) => {
   const res = await post(ORDERS_URL, data)
@@ -8,5 +8,15 @@ export const createOrder = async (data: any) => {
 
 export const getOrderDetail = async (orderID: string) => {
   const res = await get(`${ORDERS_URL}/${orderID}`)
+  return res
+}
+
+export const payOrder = async (orderID: string, details: any) => {
+  const res = await put(`${ORDERS_URL}/${orderID}/pay`, details)
+  return res
+}
+
+export const getPaypalId = async () => {
+  const res = await get(`${PAYPAL_URL}`)
   return res
 }
