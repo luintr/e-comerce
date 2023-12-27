@@ -36,8 +36,7 @@ const LoginModule = () => {
     } catch (err) {
       messageApi.open({
         type: 'error',
-        // @ts-ignore:next-line
-        content: err?.data?.message || err.error,
+        content: 'Something went wrong',
         duration: 4,
       });
     }

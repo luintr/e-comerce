@@ -45,9 +45,6 @@ type OrderData = {
 const OrderModule = ({ orderID }: { orderID: string }) => {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
 
-  // @ts-ignore:next-line
-  const { userInfo } = useSelector(state => state.auth);
-  console.log(userInfo);
   useEffect(() => {
     getOrderDetail(orderID).then((res: any) => {
       setOrderData(res);

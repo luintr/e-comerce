@@ -1,38 +1,32 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import s from './style.module.scss';
-import { Button, Form, Input, message } from 'antd';
-import Link from 'next/link';
+import React from 'react';
+import s from './styles.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Button, Form, Input, message } from 'antd';
+import { profile } from '@/api/userAPI';
 import { setCredentials } from '@/store/slices/authSlice';
-import { register } from '@/api/userAPI';
-
-const RegisterModule = () => {
+const ProfileModule = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // @ts-ignore:next-line
   const { userInfo } = useSelector(state => state.auth);
-
   const dispatch = useDispatch();
-  const router = useRouter();
-
-  const pathName = useSearchParams();
-  const redirect = pathName.get('redirect') || '/';
-
-  useEffect(() => {
-    if (userInfo) {
-      router.push(redirect);
-    }
-  }, [redirect, userInfo, router]);
-
-  const onFinish = async (values: any) => {
+  const onFinish = async (value: any) => {
+   
     try {
-      const res = await register(values);
+      const res = await profile({
+        _id: userInfo._id,
+        name: value.name,
+        email: value.email,
+        password: value.password,
+      });
       dispatch(setCredentials(res));
-      router.push(redirect);
+      messageApi.open({
+        type: 'success',
+        content: 'Profile updated successfully',
+        duration: 4,
+      });
     } catch (err) {
       messageApi.open({
         type: 'error',
@@ -42,26 +36,18 @@ const RegisterModule = () => {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    messageApi.open({
-      type: 'error',
-      content: 'Please enter your email and password',
-      duration: 4,
-    });
-    console.log('Failed:', errorInfo);
-  };
-
   return (
-    <div className={`${s.register} container grid grid-cols-12`}>
+    <div className={`${s.profile} container grid grid-cols-12`}>
       {contextHolder}
-      <h1>Sign Up</h1>
+      <h1 className={`col-span-12`}>ProfileModule</h1>
       <Form
         name="basic"
         initialValues={{
           remember: true,
+          email: userInfo?.email,
+          name: userInfo?.name,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="on"
         className={`col-span-12`}
       >
@@ -74,12 +60,25 @@ const RegisterModule = () => {
               message: 'The input is not valid E-mail!',
             },
             {
-              required: true,
               message: 'Please input your E-mail!',
             },
           ]}
         >
-          <Input autoComplete="email"/>
+          <Input autoComplete="email" disabled={true} />
+        </Form.Item>
+
+        <Form.Item
+          name="name"
+          label="Name"
+          tooltip="What do you want others to call you?"
+          rules={[
+            {
+              message: 'Please input your name!',
+              whitespace: true,
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item
@@ -87,13 +86,12 @@ const RegisterModule = () => {
           label="Password"
           rules={[
             {
-              required: true,
               message: 'Please input your password!',
             },
           ]}
           hasFeedback
         >
-          <Input.Password autoComplete="new-password"/>
+          <Input.Password autoComplete="new-password" />
         </Form.Item>
 
         <Form.Item
@@ -103,7 +101,6 @@ const RegisterModule = () => {
           hasFeedback
           rules={[
             {
-              required: true,
               message: 'Please confirm your password!',
             },
             ({ getFieldValue }) => ({
@@ -118,22 +115,7 @@ const RegisterModule = () => {
             }),
           ]}
         >
-          <Input.Password autoComplete="new-password"/>
-        </Form.Item>
-
-        <Form.Item
-          name="name"
-          label="Name"
-          tooltip="What do you want others to call you?"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your name!',
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
+          <Input.Password autoComplete="new-password" />
         </Form.Item>
 
         <Form.Item>
@@ -142,14 +124,8 @@ const RegisterModule = () => {
           </Button>
         </Form.Item>
       </Form>
-      <p>
-       Already have account?{' '}
-        <Link href={redirect ? `login?redirect=${redirect}` : '/login'}>
-          Login
-        </Link>
-      </p>
     </div>
   );
 };
 
-export default RegisterModule;
+export default ProfileModule;
