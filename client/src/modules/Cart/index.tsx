@@ -18,7 +18,6 @@ const CartModule = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-
   // @ts-ignore:next-line
   const { cartItems } = useSelector(
     (state: { cart: { cartItems: ICartItem[] } }) => state.cart
@@ -39,7 +38,7 @@ const CartModule = () => {
   };
 
   return (
-    <div className={s.cartModule}>
+    <div className={`${s.cartModule} container grid-cols-12`}>
       {cartList.length === 0 ? (
         <div className={s.emptyCart}>
           <p>Your cart is empty</p>

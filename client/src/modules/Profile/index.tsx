@@ -1,5 +1,5 @@
 'use client';
-
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from 'react';
 import s from './styles.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,7 +47,6 @@ const ProfileModule = () => {
       });
     }
   };
-
   const columns = [
     {
       title: 'ID',
@@ -196,7 +195,7 @@ const ProfileModule = () => {
       </Form>
       <div className={`col-span-7`}>
         <h2>Your Orders</h2>
-        <Table columns={columns} dataSource={orders} />
+        <Table columns={columns} dataSource={orders} rowKey="_id" />
       </div>
     </div>
   );

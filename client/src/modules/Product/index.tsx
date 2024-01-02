@@ -36,7 +36,7 @@ const ProductModules = ({ data }: { data: IProduct }) => {
   };
 
   return (
-    <div>
+    <div className={`container grid-cols-12`}>
       <div>
         <img src={image} alt={name} />
       </div>
