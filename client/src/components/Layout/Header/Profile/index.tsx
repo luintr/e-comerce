@@ -9,7 +9,7 @@ import { logout } from '@/api/userAPI';
 const ProfileHeader = ({ data }: { data: any }) => {
   const [optionState, setOptionState] = useState<boolean>(false);
 
-  const { name } = data;
+  const { name, isAdmin } = data;
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -41,6 +41,16 @@ const ProfileHeader = ({ data }: { data: any }) => {
             Profile
           </Link>
         </li>
+        {isAdmin ? (
+          <li>
+            <Link href={'/admin'} className={s.profileOptions_item}>
+              Admin
+            </Link>
+          </li>
+        ) : (
+          ''
+        )}
+
         <li>
           <span className={s.profileOptions_item} onClick={logoutHandler}>
             Log out

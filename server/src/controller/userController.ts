@@ -104,17 +104,24 @@ export const updateUserProfile = asyncHandler(async (req: Request, res: Response
 
     const updateUser = await user.save()
 
-    res.status(200).send({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin
-    })
+    if (user) {
+      const token = generateToken(res, user._id)
+
+      res.status(201).send({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: token
+      })
+    } else {
+      res.status(400)
+      throw new Error('Invalid user')
+    }
   } else {
     res.status(400)
     throw new Error('User not found')
   }
-
 })
 
 // @desc      Get Users

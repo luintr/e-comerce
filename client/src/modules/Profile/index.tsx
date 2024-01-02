@@ -1,19 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import s from './styles.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Input, message } from 'antd';
 import { profile } from '@/api/userAPI';
 import { setCredentials } from '@/store/slices/authSlice';
+import { useRouter } from 'next/navigation';
 const ProfileModule = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // @ts-ignore:next-line
   const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
+  const router = useRouter();
   const onFinish = async (value: any) => {
-   
     try {
       const res = await profile({
         _id: userInfo._id,
@@ -24,9 +25,10 @@ const ProfileModule = () => {
       dispatch(setCredentials(res));
       messageApi.open({
         type: 'success',
-        content: 'Profile updated successfully',
-        duration: 4,
+        content: `Profile updated successfully. Go to homepage in ${5} seconds`,
+        duration: 6,
       });
+      router.push('/');
     } catch (err) {
       messageApi.open({
         type: 'error',
