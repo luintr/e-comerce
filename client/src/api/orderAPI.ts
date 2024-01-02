@@ -16,6 +16,11 @@ export const payOrder = async (orderID: string, details: any) => {
   return res
 }
 
+export const getMyOrders = async () => {
+  const res = await get(`${ORDERS_URL}/mine`)
+  return res
+}
+
 export const getPaypalId = async () => {
   const res = await get(`${PAYPAL_URL}`)
   return res

@@ -1,19 +1,28 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './styles.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Input, message } from 'antd';
 import { profile } from '@/api/userAPI';
 import { setCredentials } from '@/store/slices/authSlice';
 import { useRouter } from 'next/navigation';
+import { getMyOrders } from '@/api/orderAPI';
 const ProfileModule = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [orders, setOrders] = useState<any>(null);
 
   // @ts-ignore:next-line
   const { userInfo } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  useEffect(() => {
+    getMyOrders().then((res: any) => {
+      setOrders(res);
+    });
+  }, []);
+  console.log(orders);
   const onFinish = async (value: any) => {
     try {
       const res = await profile({
@@ -51,7 +60,7 @@ const ProfileModule = () => {
         }}
         onFinish={onFinish}
         autoComplete="on"
-        className={`col-span-12`}
+        className={`col-span-6`}
       >
         <Form.Item
           name="email"
@@ -126,6 +135,9 @@ const ProfileModule = () => {
           </Button>
         </Form.Item>
       </Form>
+      <div className={`col-span-6`}>
+        <h2>Orders</h2>
+      </div>
     </div>
   );
 };
