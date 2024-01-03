@@ -85,7 +85,7 @@ const ProfileModule = () => {
         if (isPaid) {
           return <Tag color={'green'}>{isPaid}</Tag>;
         } else {
-          return <Tag color={'volcano'}>Not Paid</Tag>;
+          return <Tag color={'volcano'}>Unpaid</Tag>;
         }
       },
       width: '30%',

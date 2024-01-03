@@ -92,5 +92,6 @@ export const updateOrderToDelivered = asyncHandler(async (req: Request, res: Res
 // @route     GET /api/orders/
 // @access    Private/Admin
 export const getOrders = asyncHandler(async (req: Request, res: Response) => {
-  res.send('get orders')
+  const orders = await Order.find({}).populate('user', 'id name')
+  res.status(200).send(orders)
 })

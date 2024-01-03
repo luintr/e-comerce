@@ -25,3 +25,8 @@ export const getPaypalId = async () => {
   const res = await get(`${PAYPAL_URL}`)
   return res
 }
+
+export const getOrders = async () => {
+  const res = await get(`${ORDERS_URL}`)
+  return res
+}
