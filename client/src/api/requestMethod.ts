@@ -37,7 +37,7 @@ export const post = async <T, K = any>(url: string, data?: K, option?: any) => {
   return response.data as TDefaultResponse<T>;
 };
 
-export const put = async <T, K = any>(url: string, data: K, option?: any) => {
+export const put = async <T, K = any>(url: string, data?: K, option?: any) => {
   const response = await request.put(url, data, option);
   return response.data as TDefaultResponse<T>;
 };

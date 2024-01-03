@@ -1,108 +1,19 @@
-import { createProduct, getProduct } from '@/api/productAPI';
-import { IProduct } from '@/constants/product';
-import { Table } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import s from './style.module.scss';
+import ProductTable from './ProductTable';
+import ProductEdit from './ProductEdit';
 
 const AdminProductList = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [createFlag, setCreateFlag] = useState<boolean>(false);
-  useEffect(() => {
-    getProduct().then((res: any) => {
-      setProducts(res.data);
-    });
-  }, [createFlag]);
-
-  const deleteHandler = (id: string | number) => {
-    console.log(id);
-  };
-
-  const editHandler = (id: string | number) => {
-    console.log(id);
-  };
-
-  const createProductHandler = async () => {
-    try {
-      await createProduct();
-      setCreateFlag(true);
-      setTimeout(() => {
-        setCreateFlag(false);
-      }, 1000);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: '_id',
-      key: '_id',
-      render: (text: string) => {
-        const shortenedString = text.substring(0, 15);
-        return `${shortenedString}...`;
-      },
-      width: '20%',
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '30%',
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (text: number) => `$${text}`,
-      width: '15%',
-    },
-    {
-      title: 'Category',
-      dataIndex: 'category',
-      key: 'category',
-      width: '15%',
-    },
-    {
-      title: 'Brand',
-      dataIndex: 'brand',
-      key: 'brand',
-      width: '15%',
-    },
-    {
-      title: '',
-      dataIndex: '_id',
-      key: '_id',
-      render: (text: string, record: IProduct) => (
-        // @ts-ignore:next-line
-        <button onClick={() => editHandler(record._id)}>Edit</button>
-      ),
-      width: '3%',
-    },
-    {
-      title: '',
-      dataIndex: '_id',
-      key: '_id',
-      render: (text: string, record: IProduct) => (
-        // @ts-ignore:next-line
-        <button onClick={() => deleteHandler(record._id)}>Delete</button>
-      ),
-      width: '3%',
-    },
-  ];
-
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [productID, setProductID] = useState<string>('');
   return (
     <div className={`${s.admin_productList} grid grid-cols-12`}>
-      <div className={`col-span-6`}>Admin Product List</div>
-      <div className={`col-span-6`}>
-        <button onClick={createProductHandler}>Create Product</button>
-      </div>
-      <Table
-        className={`col-span-12`}
-        columns={columns}
-        dataSource={products}
-        rowKey="_id"
-      />
+      <div className={`col-span-12`}>Admin Product List</div>
+      {!editMode ? (
+        <ProductTable setProductID={setProductID} setEditMode={setEditMode}/>
+      ) : (
+        <ProductEdit productID={productID} setEditMode={setEditMode}/>
+      )}
     </div>
   );
 };
