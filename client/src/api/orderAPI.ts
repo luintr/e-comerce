@@ -11,7 +11,7 @@ export const getOrderDetail = async (orderID: string) => {
   return res
 }
 
-export const payOrder = async (orderID: string, details: any) => {
+export const payOrder = async (orderID: string, details?: any) => {
   const res = await put(`${ORDERS_URL}/${orderID}/pay`, details)
   return res
 }
@@ -28,5 +28,10 @@ export const getPaypalId = async () => {
 
 export const getOrders = async () => {
   const res = await get(`${ORDERS_URL}`)
+  return res
+}
+
+export const deliverOrder = async (orderID: string, details?: any) => {
+  const res = await put(`${ORDERS_URL}/${orderID}/deliver`, details)
   return res
 }

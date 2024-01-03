@@ -83,7 +83,7 @@ const ProfileModule = () => {
       key: 'isPaid',
       render: (isPaid: boolean) => {
         if (isPaid) {
-          return <Tag color={'green'}>{isPaid}</Tag>;
+          return <Tag color={'green'}>Paid</Tag>;
         } else {
           return <Tag color={'volcano'}>Unpaid</Tag>;
         }
@@ -96,9 +96,9 @@ const ProfileModule = () => {
       key: 'isDelivered',
       render: (isDelivered: boolean) => {
         if (isDelivered) {
-          return <Tag color={'green'}>{isDelivered}</Tag>;
+          return <Tag color={'green'}>Delivered</Tag>;
         } else {
-          return <Tag color={'volcano'}>Not Deliveried</Tag>;
+          return <Tag color={'volcano'}>Not Delivered</Tag>;
         }
       },
       width: '30%',

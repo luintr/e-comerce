@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import s from './style.module.scss';
-import { getOrderDetail } from '@/api/orderAPI';
+import { deliverOrder, getOrderDetail, payOrder } from '@/api/orderAPI';
 import { useSelector } from 'react-redux';
+import { message } from 'antd';
 
 type IOrderItem = {
   image: string;
@@ -44,19 +45,60 @@ type OrderData = {
 
 const OrderModule = ({ orderID }: { orderID: string }) => {
   const [orderData, setOrderData] = useState<OrderData | null>(null);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [paid, setPaid] = useState<boolean>(false);
+  const [deli, setDeli] = useState<boolean>(false);
 
+  // @ts-ignore:next-line
+  const { userInfo } = useSelector(state => state.auth);
   useEffect(() => {
     getOrderDetail(orderID).then((res: any) => {
       setOrderData(res);
     });
-  }, []);
+  }, [paid, deli]);
 
   if (!orderData) {
     return <div>Loading...</div>;
   }
 
+  const payHandler = async () => {
+    try {
+      await payOrder(orderID);
+      setPaid(true);
+      messageApi.open({
+        type: 'success',
+        content: 'Order Paid',
+        duration: 4,
+      });
+    } catch (err) {
+      messageApi.open({
+        type: 'error',
+        content: 'Something went wrong',
+        duration: 4,
+      });
+    }
+  };
+  const deliverHandler = async () => {
+    try {
+      await deliverOrder(orderID);
+      setDeli(true);
+      messageApi.open({
+        type: 'success',
+        content: 'Order Delivered',
+        duration: 4,
+      });
+    } catch (err) {
+      messageApi.open({
+        type: 'error',
+        content: 'Something went wrong',
+        duration: 4,
+      });
+    }
+  };
+
   return (
     <div className={`${s.orderPaypal} container grid grid-cols-12`}>
+      {contextHolder}
       <div className={`col-span-6`}>
         <p>Order {orderData._id}</p>
         <div>
@@ -71,7 +113,7 @@ const OrderModule = ({ orderID }: { orderID: string }) => {
           </p>
           <div>
             {orderData.isDelivered ? (
-              <p>{orderData.deliveredAt}</p>
+              <p>Delivered on:{orderData.deliveredAt}</p>
             ) : (
               <p>Not Delivered</p>
             )}
@@ -120,6 +162,16 @@ const OrderModule = ({ orderID }: { orderID: string }) => {
         <p>
           <strong>Total Price:</strong> ${orderData.totalPrice}
         </p>
+        {userInfo && userInfo.isAdmin && !orderData.isPaid && (
+          <div>
+            <button onClick={payHandler}>Mark as Paid</button>
+          </div>
+        )}
+        {userInfo && userInfo.isAdmin && !orderData.isDelivered && (
+          <div>
+            <button onClick={deliverHandler}>Mark as Delivered</button>
+          </div>
+        )}
       </div>
     </div>
   );
