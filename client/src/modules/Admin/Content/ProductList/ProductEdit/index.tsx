@@ -31,7 +31,7 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
   console.log(detail);
 
   const onFinish = async (value: any) => {
-    console.log(value);
+    console.log(detail?._id);
     const updatedProduct = {
       _id: detail?._id,
       name: value.name,
@@ -44,20 +44,12 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
     };
 
     const result = await updateProduct(updatedProduct);
-    if (result.err) {
-      messageApi.open({
-        type: 'error',
-        content: 'Something went wrong',
-        duration: 4,
-      });
-    } else {
-      messageApi.open({
-        type: 'success',
-        content: 'Product Updated',
-        duration: 4,
-      });
-      setEditMode(false);
-    }
+    messageApi.open({
+      type: 'success',
+      content: 'Product Updated',
+      duration: 4,
+    });
+    setEditMode(false);
   };
 
   return (
@@ -79,90 +71,33 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
             description: detail.description,
           }}
           onFinish={onFinish}
-          autoComplete="on"
           className={`col-span-12`}
         >
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                message: 'Please input your Name!',
-              },
-            ]}
-          >
+          <Form.Item name="name" label="Name">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="price"
-            label="Price"
-            rules={[
-              {
-                message: 'Please input your price!',
-              },
-            ]}
-          >
+          <Form.Item name="price" label="Price">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="image"
-            label="Image"
-            rules={[
-              {
-                message: 'Please input your image!',
-              },
-            ]}
-          >
+          <Form.Item name="image" label="Image">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="brand"
-            label="Brand"
-            rules={[
-              {
-                message: 'Please input your brand!',
-              },
-            ]}
-          >
+          <Form.Item name="brand" label="Brand">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="category"
-            label="Category"
-            rules={[
-              {
-                message: 'Please input your category!',
-              },
-            ]}
-          >
+          <Form.Item name="category" label="Category">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="countInStock"
-            label="Count In Stock"
-            rules={[
-              {
-                message: 'Please input your count in stock!',
-              },
-            ]}
-          >
+          <Form.Item name="countInStock" label="Count In Stock">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="description"
-            label="Description"
-            rules={[
-              {
-                message: 'Please input your description!',
-              },
-            ]}
-          >
+          <Form.Item name="description" label="Description">
             <Input />
           </Form.Item>
 
