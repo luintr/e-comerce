@@ -32,7 +32,7 @@ export const get = async <T>(url: string, option?: any) => {
   return response.data as TDefaultResponse<T>;
 };
 
-export const post = async <T, K = any>(url: string, data: K, option?: any) => {
+export const post = async <T, K = any>(url: string, data?: K, option?: any) => {
   const response = await request.post(url, data, option);
   return response.data as TDefaultResponse<T>;
 };

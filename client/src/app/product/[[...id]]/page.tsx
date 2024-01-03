@@ -6,12 +6,7 @@ import React from 'react';
 
 const Product = ({ params }: any): React.ReactElement => {
   const [productId] = params.id;
-  const {
-    data: product,
-    isLoading,
-    error,
-  } = useGetProductDetailQuery(productId);
-
+  const { data: product } = useGetProductDetailQuery(productId);
 
   return <>{product && <ProductModules data={product.data} />}</>;
 };

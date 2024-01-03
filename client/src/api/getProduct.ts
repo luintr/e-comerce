@@ -2,6 +2,7 @@ import { IProductItem } from "@/modules/Home/ProductList/ProductItem";
 import { useEffect, useState } from "react";
 
 import { get } from '@Api/requestMethod';
+import { PRODUCTS_URL } from "@/constants/route";
 
 export const useGetProduct = () => {
   const [products, setProducts] = useState<IProductItem[]>([]);
@@ -10,7 +11,7 @@ export const useGetProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await get<IProductItem[]>('api/products');
+        const response = await get<IProductItem[]>(`${PRODUCTS_URL}`);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);

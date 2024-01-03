@@ -1,4 +1,5 @@
 import AdminOrderList from './Content/OrderList';
+import AdminProductList from './Content/ProductList';
 import AdminUserList from './Content/UserList';
 
 export const tabData = [
@@ -13,5 +14,11 @@ export const tabData = [
     name: 'Users List',
     key: 'userList',
     content: <AdminUserList />,
+  },
+  {
+    id: 2,
+    name: 'Product List',
+    key: 'productList',
+    content: <AdminProductList />,
   },
 ];
