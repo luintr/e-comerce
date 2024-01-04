@@ -1,3 +1,4 @@
+import path from 'path'
 import bodyParser from 'body-parser'
 import express from 'express'
 import cookieParser from 'cookie-parser'
@@ -6,6 +7,7 @@ import connectDB from './config/db';
 import productRoute from './routes/productRoute'
 import userRoute from './routes/userRoute'
 import orderRoute from './routes/orderRoute'
+import uploadRoute from './routes/uploadRoute'
 import { errorHandler, notFound } from './middleware/errorHandler';
 
 require('dotenv').config()
@@ -26,8 +28,12 @@ app.get("/", (req, res) => {
 app.use('/api/products', productRoute)
 app.use('/api/users', userRoute)
 app.use('/api/orders', orderRoute)
+app.use('/api/upload', uploadRoute)
 
 app.get('api/config/paypal', (req, res) => res.send({ clientId: process.env.PAYPAL_CLIENT_ID }))
+
+const __dirname = path.resolve()
+app.use('/upload', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFound)
 app.use(errorHandler)

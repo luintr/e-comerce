@@ -1,5 +1,5 @@
 import { getProductDetail, updateProduct } from '@/api/productAPI';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, InputNumber, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 type IProductEdit = {
@@ -78,7 +78,7 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
           </Form.Item>
 
           <Form.Item name="price" label="Price">
-            <Input />
+            <InputNumber />
           </Form.Item>
 
           <Form.Item name="image" label="Image">
@@ -94,7 +94,7 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
           </Form.Item>
 
           <Form.Item name="countInStock" label="Count In Stock">
-            <Input />
+            <InputNumber />
           </Form.Item>
 
           <Form.Item name="description" label="Description">
