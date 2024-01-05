@@ -1,9 +1,26 @@
-import React from 'react'
+'use client';
+
+import React, { useState } from 'react';
+import s from './style.module.scss';
+import AdminUserTable from './UserTable';
+import AdminUserEdit from './UserEdit';
 
 const AdminUserList = () => {
-  return (
-    <div>AdminUserList</div>
-  )
-}
+  const [userEditMode, setUserEditMode] = useState<boolean>(false);
+  const [userID, setUserID] = useState<string>('');
 
-export default AdminUserList
+  return (
+    <div className={s.admin_userList}>
+      {userEditMode ? (
+        <AdminUserEdit userID={userID} setUserEditMode={setUserEditMode} />
+      ) : (
+        <AdminUserTable
+          setUserEditMode={setUserEditMode}
+          setUserID={setUserID}
+        />
+      )}
+    </div>
+  );
+};
+
+export default AdminUserList;
