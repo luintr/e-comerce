@@ -7,7 +7,7 @@ type IUserTable = {
   setUserEditMode: (state: boolean) => void;
 };
 
-type IUser = {
+export type IUserType = {
   _id: string;
   name: string;
   email: string;
@@ -74,7 +74,7 @@ const AdminUserTable = ({ setUserID, setUserEditMode }: IUserTable) => {
       title: '',
       dataIndex: '_id',
       key: '_id',
-      render: (text: string, record: IUser) => (
+      render: (text: string, record: IUserType) => (
         // @ts-ignore:next-line
         <button onClick={() => editHandler(record._id)}>Edit</button>
       ),
@@ -84,7 +84,7 @@ const AdminUserTable = ({ setUserID, setUserEditMode }: IUserTable) => {
       title: '',
       dataIndex: '_id',
       key: '_id',
-      render: (text: string, record: IUser) => (
+      render: (text: string, record: IUserType) => (
         // @ts-ignore:next-line
         <button onClick={() => deleteHandler(record._id)}>Delete</button>
       ),

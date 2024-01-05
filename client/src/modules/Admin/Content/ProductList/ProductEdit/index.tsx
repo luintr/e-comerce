@@ -92,8 +92,13 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
         description: value.description,
       };
 
-      const result = await updateProduct(updatedProduct);
-      setIsDisable(true);
+      try {
+        setIsDisable(true);
+        const result = await updateProduct(updatedProduct);
+      } catch (error) {
+        setIsDisable(false);
+        throw new Error('Something went wrong')
+      }
       setHaveUpload(false);
       messageApi.open({
         type: 'success',
@@ -102,7 +107,7 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
       });
       setTimeout(() => {
         setEditMode(false);
-      }, 4000);
+      }, 2000);
     }
   };
 
