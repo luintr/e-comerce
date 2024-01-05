@@ -21,7 +21,7 @@ export const useGetProduct = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [products]);
 
   return { products, loading }
 }
