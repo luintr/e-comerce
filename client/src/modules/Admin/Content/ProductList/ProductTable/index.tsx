@@ -22,7 +22,6 @@ const ProductTable = ({ setProductID, setEditMode }: IProductTable) => {
   };
 
   const editHandler = (id: string) => {
-    console.log(id);
     setEditMode(true)
     setProductID(id);
   };

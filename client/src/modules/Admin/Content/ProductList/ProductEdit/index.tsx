@@ -1,5 +1,15 @@
 import { getProductDetail, updateProduct } from '@/api/productAPI';
-import { Button, Form, Input, InputNumber, message } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  UploadFile,
+  UploadProps,
+  message,
+} from 'antd';
+import Upload, { RcFile } from 'antd/es/upload';
+import ImgCrop from 'antd-img-crop';
 import React, { useEffect, useState } from 'react';
 
 type IProductEdit = {
@@ -21,29 +31,84 @@ type IDetail = {
 const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [detail, setDetail] = useState<IDetail | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | undefined>(
+    undefined
+  );
+  const [imageFile, setImageFile] = useState<RcFile | undefined>();
+  const [fileList, setFileList] = useState<UploadFile[]>([
+    {
+      uid: '0',
+      name: 'image.png',
+      status: 'done',
+      url: currentImage,
+    },
+  ]);
+
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    if (newFileList[0]) {
+      setImageFile(newFileList[0].originFileObj);
+    }
+    setFileList(newFileList);
+  };
+
+  const onPreview = async (file: UploadFile) => {
+    console.log(file)
+    let src = file.url as string;
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as RcFile);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
 
   useEffect(() => {
     getProductDetail(productID).then((res: any) => {
       setDetail(res.data);
+      setCurrentImage(res.data.image);
     });
   }, []);
 
-  console.log(detail);
+  const uploadImage = async () => {
+    console.log(imageFile);
+    if (imageFile) {
+      const formData = new FormData();
 
-  const onFinish = async (value: any) => {
-    console.log(detail?._id);
+      formData.append('file', imageFile);
+      formData.append('upload_preset', 'dermond');
+
+      const data = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      ).then(res => res.json());
+
+      return data.secure_url
+    }
+  };
+
+  const onFinish = async (value: IDetail) => {
+     const image = await uploadImage();
+
     const updatedProduct = {
       _id: detail?._id,
       name: value.name,
       price: value.price,
-      image: value.image,
+      image: image,
       brand: value.brand,
       category: value.category,
       countInStock: value.countInStock,
       description: value.description,
     };
-
     const result = await updateProduct(updatedProduct);
+
     messageApi.open({
       type: 'success',
       content: 'Product Updated',
@@ -82,7 +147,17 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
           </Form.Item>
 
           <Form.Item name="image" label="Image">
-            <Input />
+            <ImgCrop rotationSlider>
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture-card"
+                fileList={fileList}
+                onChange={onChange}
+                onPreview={onPreview}
+              >
+                {fileList.length < 1 && '+ Upload'}
+              </Upload>
+            </ImgCrop>
           </Form.Item>
 
           <Form.Item name="brand" label="Brand">
