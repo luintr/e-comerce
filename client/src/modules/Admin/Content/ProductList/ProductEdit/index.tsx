@@ -31,51 +31,34 @@ type IDetail = {
 const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [detail, setDetail] = useState<IDetail | null>(null);
-  const [currentImage, setCurrentImage] = useState<string | undefined>(
-    undefined
-  );
-  const [imageFile, setImageFile] = useState<RcFile | undefined>();
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '0',
-      name: 'image.png',
-      status: 'done',
-      url: currentImage,
-    },
-  ]);
+  const [imageFile, setImageFile] = useState<RcFile | undefined>(undefined);
+  const [fileList, setFileList] = useState<UploadFile[]>();
+  const [isDisable, setIsDisable] = useState<boolean>(false);
+  const [haveUpload, setHaveUpload] = useState<boolean>(false);
 
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     if (newFileList[0]) {
       setImageFile(newFileList[0].originFileObj);
+      setHaveUpload(true);
     }
     setFileList(newFileList);
-  };
-
-  const onPreview = async (file: UploadFile) => {
-    console.log(file);
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
   };
 
   useEffect(() => {
     getProductDetail(productID).then((res: any) => {
       setDetail(res.data);
-      setCurrentImage(res.data.image);
+      setFileList([
+        {
+          uid: res.data._id,
+          name: res.data.name,
+          status: 'done',
+          url: res.data.image,
+        },
+      ]);
     });
-  }, []);
+  }, [productID]);
 
   const uploadImage = async () => {
-    console.log(imageFile);
     if (imageFile) {
       const formData = new FormData();
 
@@ -95,28 +78,32 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
   };
 
   const onFinish = async (value: IDetail) => {
-    const image = await uploadImage();
+    if (fileList) {
+      const image = haveUpload ? await uploadImage() : fileList[0].url;
 
-    const updatedProduct = {
-      _id: detail?._id,
-      name: value.name,
-      price: value.price,
-      image: image,
-      brand: value.brand,
-      category: value.category,
-      countInStock: value.countInStock,
-      description: value.description,
-    };
-    const result = await updateProduct(updatedProduct);
+      const updatedProduct = {
+        _id: detail?._id,
+        name: value.name,
+        price: value.price,
+        image: image,
+        brand: value.brand,
+        category: value.category,
+        countInStock: value.countInStock,
+        description: value.description,
+      };
 
-    messageApi.open({
-      type: 'success',
-      content: 'Product Updated',
-      duration: 4,
-    });
-    setTimeout(() => {
-      setEditMode(false);
-    }, 4000);
+      const result = await updateProduct(updatedProduct);
+      setIsDisable(true);
+      setHaveUpload(false);
+      messageApi.open({
+        type: 'success',
+        content: 'Product Updated',
+        duration: 4,
+      });
+      setTimeout(() => {
+        setEditMode(false);
+      }, 4000);
+    }
   };
 
   return (
@@ -155,9 +142,8 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
                 listType="picture-card"
                 fileList={fileList}
                 onChange={onChange}
-                onPreview={onPreview}
               >
-                {fileList.length < 1 && '+ Upload'}
+                {fileList && fileList.length < 1 && '+ Upload'}
               </Upload>
             </ImgCrop>
           </Form.Item>
@@ -179,7 +165,11 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={isDisable && true}
+            >
               Submit
             </Button>
           </Form.Item>

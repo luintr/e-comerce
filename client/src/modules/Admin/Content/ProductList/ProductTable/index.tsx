@@ -1,6 +1,6 @@
 import { createProduct, deleteProduct, getProduct } from '@/api/productAPI';
 import { IProduct } from '@/constants/product';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 type IProductTable = {
@@ -9,6 +9,7 @@ type IProductTable = {
 };
 
 const ProductTable = ({ setProductID, setEditMode }: IProductTable) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [changeFlag, setChangeFlag] = useState<boolean>(false);
 
@@ -20,6 +21,11 @@ const ProductTable = ({ setProductID, setEditMode }: IProductTable) => {
 
   const deleteHandler = async (id: string | number) => {
     await deleteProduct(id);
+    messageApi.open({
+      type: 'success',
+      content: 'Product Deleted',
+      duration: 4,
+    });
     setChangeFlag(!changeFlag);
   };
 
@@ -32,6 +38,11 @@ const ProductTable = ({ setProductID, setEditMode }: IProductTable) => {
     try {
       await createProduct();
       setChangeFlag(!changeFlag);
+      messageApi.open({
+        type: 'success',
+        content: 'Product Created',
+        duration: 4,
+      });
       setTimeout(() => {
         setChangeFlag(!changeFlag);
       }, 1000);
@@ -99,6 +110,7 @@ const ProductTable = ({ setProductID, setEditMode }: IProductTable) => {
   ];
   return (
     <div className={`col-span-12 grid grid-cols-12`}>
+      {contextHolder}
       <div className={`col-span-12`}>
         <button onClick={createProductHandler}>Create Product</button>
       </div>
