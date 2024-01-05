@@ -1,4 +1,4 @@
-import { createProduct, getProduct } from '@/api/productAPI';
+import { createProduct, deleteProduct, getProduct } from '@/api/productAPI';
 import { IProduct } from '@/constants/product';
 import { Table } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -10,28 +10,30 @@ type IProductTable = {
 
 const ProductTable = ({ setProductID, setEditMode }: IProductTable) => {
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [createFlag, setCreateFlag] = useState<boolean>(false);
+  const [changeFlag, setChangeFlag] = useState<boolean>(false);
+
   useEffect(() => {
     getProduct().then((res: any) => {
       setProducts(res.data);
     });
-  }, [createFlag]);
+  }, [changeFlag]);
 
-  const deleteHandler = (id: string | number) => {
-    console.log(id);
+  const deleteHandler = async (id: string | number) => {
+    await deleteProduct(id);
+    setChangeFlag(!changeFlag);
   };
 
   const editHandler = (id: string) => {
-    setEditMode(true)
+    setEditMode(true);
     setProductID(id);
   };
 
   const createProductHandler = async () => {
     try {
       await createProduct();
-      setCreateFlag(true);
+      setChangeFlag(!changeFlag);
       setTimeout(() => {
-        setCreateFlag(false);
+        setChangeFlag(!changeFlag);
       }, 1000);
     } catch (err) {
       console.log(err);

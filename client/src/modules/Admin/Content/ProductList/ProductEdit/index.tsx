@@ -52,7 +52,7 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
   };
 
   const onPreview = async (file: UploadFile) => {
-    console.log(file)
+    console.log(file);
     let src = file.url as string;
     if (!src) {
       src = await new Promise(resolve => {
@@ -90,12 +90,12 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
         }
       ).then(res => res.json());
 
-      return data.secure_url
+      return data.secure_url;
     }
   };
 
   const onFinish = async (value: IDetail) => {
-     const image = await uploadImage();
+    const image = await uploadImage();
 
     const updatedProduct = {
       _id: detail?._id,
@@ -114,7 +114,9 @@ const ProductEdit = ({ productID, setEditMode }: IProductEdit) => {
       content: 'Product Updated',
       duration: 4,
     });
-    setEditMode(false);
+    setTimeout(() => {
+      setEditMode(false);
+    }, 4000);
   };
 
   return (

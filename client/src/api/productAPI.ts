@@ -1,5 +1,5 @@
 import { PRODUCTS_URL, UPLOADS_URL } from "@/constants/route"
-import { get, post, put } from "./requestMethod"
+import { deleteMethod, get, post, put } from "./requestMethod"
 
 export const getProduct = async () => {
   const res = await get(`${PRODUCTS_URL}`)
@@ -23,5 +23,10 @@ export const updateProduct = async (data: any) => {
 
 export const uploadProductImage = async (data: any) => {
   const res = await post(`${UPLOADS_URL}`, data)
+  return res
+}
+
+export const deleteProduct = async (productId: string | number) => {
+  const res = await deleteMethod(`${PRODUCTS_URL}/${productId}`)
   return res
 }

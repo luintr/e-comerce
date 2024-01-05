@@ -41,3 +41,8 @@ export const put = async <T, K = any>(url: string, data?: K, option?: any) => {
   const response = await request.put(url, data, option);
   return response.data as TDefaultResponse<T>;
 };
+
+export const deleteMethod = async <T>(url: string, option?: any) => {
+  const response = await request.delete(url, option);
+  return response.data as TDefaultResponse<T>;
+};
