@@ -8,6 +8,7 @@ import { ROUTE_PATH } from '@/constants/route';
 import { useSelector } from 'react-redux';
 import ProfileHeader from './Profile';
 import { playfairFont } from '@/utils/fonts';
+import { CartIcon } from '@/components/Icons';
 
 const Header = (): React.ReactElement => {
   const [qtyItems, setQtyItems] = useState<[]>([]);
@@ -34,12 +35,14 @@ const Header = (): React.ReactElement => {
           DER MOND
         </Link>
         <div className={s.navigate}>
+          <Link href={'/service'} className={s.navigate_item}>
+            OUR STORY
+          </Link>
+          <Link href={'/gallery'} className={s.navigate_item}>
+            GALLERY
+          </Link>
           <Link href={'/shop'} className={s.navigate_item}>
             Shop
-          </Link>
-          <Link href={'/cart'} className={s.navigate_item}>
-            Cart
-            {qtyItems.length > 0 && <span>{qtyItems.length}</span>}
           </Link>
           {user ? (
             <ProfileHeader data={user} />
@@ -48,6 +51,12 @@ const Header = (): React.ReactElement => {
               Sign In
             </Link>
           )}
+          <Link href={'/cart'} className={s.navigate_item}>
+            <CartIcon />
+            {qtyItems.length > 0 && (
+              <span className={s.navigate_item_cartQtr}>{qtyItems.length}</span>
+            )}
+          </Link>
         </div>
       </Container>
     </header>

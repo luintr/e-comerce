@@ -15,10 +15,30 @@
 
     .navigate {
       display: flex;
-      gap: rem(10px);
+      gap: rem(40px);
 
       &_item {
         cursor: pointer;
+        text-transform: uppercase;
+        font-size: rem(16px);
+        line-height: rem(18.78px);
+        font-weight: 600;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &_cartQtr {
+          position: absolute;
+          top: 0;
+          right: 0;
+          transform: translate(100%, -50%);
+        }
+
+        svg {
+          width: rem(20px);
+          height: auto;
+        }
       }
     }
   }
