@@ -2,9 +2,10 @@
 
 import React from 'react';
 import s from './style.module.scss';
-import ProductItem from './ProductItem';
 import { useGetProductsQuery } from '@/store/slices/productApiSlice';
-import { IProductItem } from '@Modules/Home/ProductList/ProductItem';
+import ProductItem, {
+  IProductItem,
+} from '@/modules/Shop/ProductList/ProductItem';
 
 const ProductList = (): React.ReactElement => {
   const { data: products, isLoading, error } = useGetProductsQuery('Product');

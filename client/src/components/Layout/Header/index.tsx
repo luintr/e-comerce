@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react';
 import s from './style.module.scss';
 import Link from 'next/link';
 import { ROUTE_PATH } from '@/constants/route';
-import { titleFont } from '@/utils/fonts';
 import { useSelector } from 'react-redux';
 import ProfileHeader from './Profile';
+import { playfairFont } from '@/utils/fonts';
 
 const Header = (): React.ReactElement => {
   const [qtyItems, setQtyItems] = useState<[]>([]);
@@ -29,11 +29,14 @@ const Header = (): React.ReactElement => {
       <Container className={s.header_container}>
         <Link
           href={ROUTE_PATH.HOME}
-          className={`${s.logo} ${titleFont.className}`}
+          className={`${s.logo} ${playfairFont.className}`}
         >
-          La casa de papel
+          DER MOND
         </Link>
         <div className={s.navigate}>
+          <Link href={'/shop'} className={s.navigate_item}>
+            Shop
+          </Link>
           <Link href={'/cart'} className={s.navigate_item}>
             Cart
             {qtyItems.length > 0 && <span>{qtyItems.length}</span>}
