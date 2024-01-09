@@ -2,13 +2,13 @@
 
 import Container from '@/components/Container';
 import React, { useEffect, useState } from 'react';
-import s from './style.module.scss';
+import s from '../style.module.scss';
 import Link from 'next/link';
 import { ROUTE_PATH } from '@/constants/route';
 import { useSelector } from 'react-redux';
 import ProfileHeader from './Profile';
 import { playfairFont } from '@/utils/fonts';
-import { CartIcon } from '@/components/Icons';
+import { CartIcon, Logo } from '@/components/Icons';
 
 const Header = (): React.ReactElement => {
   const [qtyItems, setQtyItems] = useState<[]>([]);
@@ -28,12 +28,18 @@ const Header = (): React.ReactElement => {
   return (
     <header className={s.header}>
       <Container className={s.header_container}>
-        <Link
-          href={ROUTE_PATH.HOME}
-          className={`${s.logo} ${playfairFont.className}`}
-        >
-          DER MOND
-        </Link>
+        <div className={s.header_container_left}>
+          <div className={s.logoAnim}>
+            <Logo />
+          </div>
+          <Link
+            href={ROUTE_PATH.HOME}
+            className={`${s.headline} ${playfairFont.className}`}
+          >
+            DER MOND
+          </Link>
+        </div>
+
         <div className={s.navigate}>
           <Link href={'/service'} className={s.navigate_item}>
             OUR STORY

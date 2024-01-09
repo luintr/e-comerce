@@ -32,4 +32,33 @@ const CartIcon = () => {
   );
 };
 
-export { UserIcon, CartIcon };
+const Logo = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="24"
+      fill="none"
+      viewBox="0 0 28 24"
+    >
+      <ellipse
+        cx="12"
+        cy="12"
+        fill="#080808"
+        rx="12"
+        ry="12"
+        transform="rotate(90 12 12)"
+      ></ellipse>
+      <ellipse
+        cx="16"
+        cy="12"
+        fill="#F0F1EC"
+        rx="12"
+        ry="12"
+        transform="rotate(90 16 12)"
+      ></ellipse>
+    </svg>
+  );
+};
+
+export { UserIcon, CartIcon, Logo };

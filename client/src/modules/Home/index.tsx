@@ -1,12 +1,11 @@
 import React from 'react';
 import s from './style.module.scss';
+import HeroSection from './Hero';
 
 const HomeModule = (): React.ReactElement => {
   return (
     <div className={s.hompage}>
-      <div className={`${s.container} container`}>
-        <h1>Home Module</h1>
-      </div>
+      <HeroSection />
     </div>
   );
 };
