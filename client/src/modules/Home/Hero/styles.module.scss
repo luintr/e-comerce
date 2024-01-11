@@ -18,9 +18,9 @@
 
     .bottomHero {
       position: relative;
+      margin-top: rem(30px);
 
       &_title {
-        margin-top: rem(30px);
         position: relative;
         z-index: 2;
 
@@ -28,7 +28,7 @@
           font-size: rem(250px);
           line-height: 100%;
           color: var(--black-08);
-
+          letter-spacing: rem(-10px);
           &:last-child {
             text-align: right;
           }
@@ -37,7 +37,7 @@
 
       &_wrapImage {
         position: absolute;
-        top: 5%;
+        top: 0;
         left: 50%;
         transform: translateX(-50%);
         z-index: 1;

@@ -33,4 +33,8 @@ $color-debug: #ff6b4c;
       width: 1px;
     }
   }
+
+  &.d-none {
+    display: none;
+  }
 }

@@ -4,6 +4,8 @@ import Header from './Header';
 import { Provider } from 'react-redux';
 import store from '@/store/store';
 import s from './style.module.scss';
+import Footer from './Footer';
+import { GridDebug } from './GridDebug';
 
 type ILayout = {
   children: ReactNode;
@@ -16,6 +18,8 @@ const Layout = ({ children, className }: ILayout) => {
       <body className={`${className} ${s.mainLayout}`}>
         <Header />
         {children}
+        <Footer />
+        <GridDebug />
       </body>
     </Provider>
   );
