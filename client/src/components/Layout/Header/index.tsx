@@ -41,13 +41,13 @@ const Header = (): React.ReactElement => {
         </div>
 
         <div className={s.navigate}>
-          <Link href={'/service'} className={s.navigate_item}>
+          <Link href={ROUTE_PATH.STORY} className={s.navigate_item}>
             OUR STORY
           </Link>
-          <Link href={'/gallery'} className={s.navigate_item}>
+          <Link href={ROUTE_PATH.GALLERY} className={s.navigate_item}>
             GALLERY
           </Link>
-          <Link href={'/shop'} className={s.navigate_item}>
+          <Link href={ROUTE_PATH.SHOP} className={s.navigate_item}>
             Shop
           </Link>
           {user ? (
@@ -57,7 +57,7 @@ const Header = (): React.ReactElement => {
               Sign In
             </Link>
           )}
-          <Link href={'/cart'} className={s.navigate_item}>
+          <Link href={ROUTE_PATH.CART} className={s.navigate_item}>
             <CartIcon />
             {qtyItems.length > 0 && (
               <span className={s.navigate_item_cartQtr}>{qtyItems.length}</span>

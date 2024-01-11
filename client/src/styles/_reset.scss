@@ -188,3 +188,7 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+body {
+  font-size: rem(20px);
+}

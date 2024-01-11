@@ -61,4 +61,22 @@ const Logo = () => {
   );
 };
 
-export { UserIcon, CartIcon, Logo };
+const ArrowIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="14"
+      fill="none"
+      viewBox="0 0 20 14"
+    >
+      <path
+        stroke="#080808"
+        strokeWidth="1.556"
+        d="M13.333 13.666c0-.707.611-1.762 1.23-2.648.794-1.142 1.745-2.14 2.834-2.9.816-.571 1.806-1.119 2.603-1.119m0 0c-.797 0-1.788-.547-2.603-1.118-1.09-.762-2.04-1.759-2.834-2.9-.619-.886-1.23-1.944-1.23-2.648M20 6.999H0"
+      ></path>
+    </svg>
+  );
+};
+
+export { UserIcon, CartIcon, Logo, ArrowIcon };
