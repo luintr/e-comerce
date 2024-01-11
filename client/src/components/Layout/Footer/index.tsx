@@ -2,7 +2,7 @@ import React from 'react';
 import s from '../style.module.scss';
 import Container from '@/components/Container';
 import { cinzelFont, contentFont } from '@/utils/fonts';
-import { FOOTER_NAVIGATE } from '@/constants/data';
+import { FOOTER_NAVIGATE } from '@/constants/homeData/data';
 import Link from 'next/link';
 import { Input } from 'antd';
 import { ArrowIcon } from '@/components/Icons';

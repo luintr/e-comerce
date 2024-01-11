@@ -1,4 +1,7 @@
-import { ROUTE_PATH } from "./route";
+import { ROUTE_PATH } from "../route";
+import image1 from '@Images/homeCol1.jpeg'
+import image2 from '@Images/homeCol2.jpeg'
+import image3 from '@Images/homeCol3.jpeg'
 
 export const FOOTER_NAVIGATE = [
   {
@@ -51,5 +54,23 @@ export const FOOTER_NAVIGATE = [
         link: '#'
       },
     ]
+  },
+]
+
+export const HOME_COLLECTION_DATA = [
+  {
+    image: image1.src,
+    width: image1.width,
+    height: image1.height,
+  },
+  {
+    image: image2.src,
+    width: image2.width,
+    height: image2.height,
+  },
+  {
+    image: image3.src,
+    width: image3.width,
+    height: image3.height,
   },
 ]
