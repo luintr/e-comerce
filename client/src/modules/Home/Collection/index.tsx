@@ -4,6 +4,7 @@ import Container from '@/components/Container';
 import { cinzelFont, playfairFont } from '@/utils/fonts';
 import Image from 'next/image';
 import { HOME_COLLECTION_DATA } from '@/constants/homeData/data';
+import MarqueeText from './MarqueeText';
 
 const CollectionSecion = () => {
   return (
@@ -42,6 +43,7 @@ const CollectionSecion = () => {
           ))}
         </div>
       </Container>
+      <MarqueeText />
     </section>
   );
 };

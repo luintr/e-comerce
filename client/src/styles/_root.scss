@@ -8,7 +8,8 @@ body {
   --black-08: #080808;
   --tan: #F0F1EC;
   --be: #f9f5f0;
-
+  --coral: #A37C75;
+  
   @include min-tablet {
     --gap-x: #{rem(50px)};
   }
