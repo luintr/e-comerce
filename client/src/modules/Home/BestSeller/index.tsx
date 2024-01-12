@@ -13,12 +13,12 @@ const BestSellerSection = () => {
       <Container className={`${s.container} grid grid-cols-12`}>
         <div className={`${s.itemInfo} col-span-4 col-start-1`}>
           <div className={s.wrapContent}>
-            <h2 className={`${s.itemInfo_title}`}>
+            <h3 className={`${s.itemInfo_title}`}>
               DER MOND’s <span>BEST SELLER</span>
-            </h2>
-            <h2 className={`${s.itemInfo_name} ${cinzelFont.className}`}>
+            </h3>
+            <h3 className={`${s.itemInfo_name} ${cinzelFont.className}`}>
               SUEDE LEATHER BLAZER
-            </h2>
+            </h3>
             <p className={`${s.itemInfo_content} `}>
               Customization Beyond Boundaries: Design is personal, and so is our
               approach. We don&apos;t just design dresses; we craft experiences.
