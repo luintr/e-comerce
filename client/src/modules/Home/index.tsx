@@ -4,6 +4,7 @@ import HeroSection from './Hero';
 import CollectionSecion from './Collection';
 import BestSellerSection from './BestSeller';
 import SeasonSection from './Season';
+import FollowSection from './Follow';
 
 const HomeModule = (): React.ReactElement => {
   return (
@@ -12,6 +13,7 @@ const HomeModule = (): React.ReactElement => {
       <CollectionSecion />
       <BestSellerSection />
       <SeasonSection />
+      <FollowSection />
     </div>
   );
 };
