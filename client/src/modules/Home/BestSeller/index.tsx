@@ -2,7 +2,7 @@ import React from 'react';
 import s from './style.module.scss';
 import Container from '@/components/Container';
 import { cinzelFont } from '@/utils/fonts';
-import RoundedText from './RoundedText';
+import RoundedText from '../../../components/RoundedText';
 import { SingleArrowIcon } from '@/components/Icons';
 import Image from 'next/image';
 import example from '@Images/bestSellerImg.jpeg';
@@ -27,7 +27,7 @@ const BestSellerSection = () => {
               creation.
             </p>
           </div>
-          <RoundedText />
+          <RoundedText className={s.roundedText} />
           <p className={`${s.sliderNumber} ${cinzelFont.className}`}>/01</p>
         </div>
         <div className={`${s.itemSlider} col-span-8 col-start-5`}>

@@ -1,9 +1,15 @@
-import React from 'react'
+import React from 'react';
+import s from './style.module.scss';
+import StoryHero from './StoryHero';
+import StoryTabs from './StoryTabs';
 
 const StoryModule = () => {
   return (
-    <div>StoryModule</div>
-  )
-}
+    <div className={s.storyModule}>
+      <StoryHero />
+      <StoryTabs />
+    </div>
+  );
+};
 
-export default StoryModule
+export default StoryModule;

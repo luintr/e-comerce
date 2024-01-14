@@ -2,9 +2,13 @@ import React from 'react';
 import s from './style.module.scss';
 import { ArrowIcon } from '@/components/Icons';
 
-const RoundedText = () => {
+type IRoundedText = {
+  className?: string;
+};
+
+const RoundedText = ({ className }: IRoundedText) => {
   return (
-    <div className={s.roundedText}>
+    <div className={`${s.roundedText} ${className}`}>
       <ArrowIcon />
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
         <path
