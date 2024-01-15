@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import s from './style.module.scss';
 import Container from '@/components/Container';
 import { cinzelFont } from '@/utils/fonts';
@@ -9,7 +9,68 @@ import gsap from 'gsap';
 
 const StoryTabs = () => {
   const [activeTab, setActiveTab] = useState<number>(1);
-  const tabRef = useRef<HTMLDivElement | null>(null);
+  const tabRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const enhanceRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const initialRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const serviceRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const roundedTextRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      tabRefs.current.forEach((tabRef, index) => {
+        const enhanceRef = enhanceRefs.current[index];
+        const initialRef = initialRefs.current[index];
+        const serviceRef = serviceRefs.current[index];
+        const roundedText = roundedTextRefs.current[index];
+
+        if (index + 1 === activeTab) {
+          gsap.to(tabRef, { ease: 'power4.out', duration: 1, width: '60%' });
+          gsap.to(initialRef, { ease: 'power4.out', duration: 0.5, opacity: 0 });
+          gsap.to(enhanceRef, {
+            ease: 'power4.out',
+            pointerEvents: 'initial',
+            duration: 1,
+            opacity: 1,
+          });
+          gsap.to(serviceRef, {
+            ease: 'power4.out',
+            pointerEvents: 'initial',
+            duration: 1,
+            opacity: 1,
+          });
+          gsap.to(roundedText, { ease: 'power4.out', duration: 1, opacity: 1 });
+        } else {
+          gsap.to(tabRef, { ease: 'power4.out', duration: 1, width: '20%' });
+          gsap.to(initialRef, {
+            ease: 'power4.out',
+            duration: 0.5,
+            pointerEvents: 'none',
+            opacity: 1,
+          });
+          gsap.to(enhanceRef, {
+            ease: 'power4.out',
+            pointerEvents: 'none',
+            duration: 0.5,
+            opacity: 0,
+          });
+          gsap.to(serviceRef, {
+            ease: 'power4.out',
+            duration: 0.5,
+            opacity: 0,
+          });
+          gsap.to(roundedText, {
+            ease: 'power4.out',
+            duration: 0.5,
+            opacity: 0,
+          });
+        }
+      });
+    });
+
+    return () => {
+      ctx.kill();
+    };
+  }, [activeTab]);
 
   const clickHandler = (id: number) => {
     setActiveTab(id);
@@ -19,16 +80,18 @@ const StoryTabs = () => {
     <section className={s.storyTabs}>
       <Container className={s.container}>
         <div className={s.tabList}>
-          {storyTabData.map(item => (
+          {storyTabData.map((item, index) => (
             <div
               key={item.id}
-              className={`${s.tabItem} ${
-                activeTab === item.id ? s.active : null
-              }`}
+              className={`${s.tabItem}`}
               onClick={() => clickHandler(item.id)}
-              ref={tabRef}
+              style={{ background: item.bg, color: item.text }}
+              ref={el => (tabRefs.current[index] = el)}
             >
-              <div className={s.tabItem_initial}>
+              <div
+                className={s.tabItem_initial}
+                ref={el => (initialRefs.current[index] = el)}
+              >
                 <p
                   className={`${s.number} ${cinzelFont.className}`}
                 >{`/0${item.id}`}</p>
@@ -37,9 +100,17 @@ const StoryTabs = () => {
                 </h3>
               </div>
 
-              <p className={s.tabItem_service}>OUR SERVICE</p>
+              <p
+                className={s.tabItem_service}
+                ref={el => (serviceRefs.current[index] = el)}
+              >
+                OUR SERVICE
+              </p>
 
-              <div className={s.tabItem_enhance}>
+              <div
+                className={s.tabItem_enhance}
+                ref={el => (enhanceRefs.current[index] = el)}
+              >
                 <p
                   className={`${s.number} ${cinzelFont.className}`}
                 >{`/0${item.id}`}</p>
@@ -49,7 +120,12 @@ const StoryTabs = () => {
                 <p className={s.content}>{item.content}</p>
               </div>
 
-              <RoundedText className={s.roundedText} />
+              <div
+                className={s.wrap_roundedText}
+                ref={el => (roundedTextRefs.current[index] = el)}
+              >
+                <RoundedText className={s.roundedText} textColor={item.text} />
+              </div>
             </div>
           ))}
         </div>

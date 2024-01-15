@@ -4,6 +4,7 @@
     border-radius: rem(20px);
     display: flex;
     min-height: rem(990px);
+    overflow: hidden;
 
     .tabItem {
       width: 20%;
@@ -11,9 +12,6 @@
       position: relative;
       cursor: pointer;
 
-      &.active {
-        width: 60%;
-      }
 
       .number {
         font-size: rem(64px);
@@ -42,7 +40,9 @@
       &_service {
         font-size: rem(24px);
         line-height: rem(24px);
-        display: none;
+        position: absolute;
+        top: rem(40px);
+        left: rem(40px);
       }
 
       &_enhance {
@@ -51,7 +51,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        display: none;
+        display: flex;
+        flex-direction: column;
 
         .content {
           width: rem(430px);
@@ -59,8 +60,14 @@
         }
       }
 
-      .roundedText {
-        display: none;
+      .wrap_roundedText {
+        position: absolute;
+        right: rem(140px);
+        bottom: rem(100px);
+
+        .roundedText {
+          position: relative;
+        }
       }
     }
   }

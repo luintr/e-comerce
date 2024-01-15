@@ -4,12 +4,13 @@ import { ArrowIcon } from '@/components/Icons';
 
 type IRoundedText = {
   className?: string;
+  textColor?: string;
 };
 
-const RoundedText = ({ className }: IRoundedText) => {
+const RoundedText = ({ className, textColor }: IRoundedText) => {
   return (
     <div className={`${s.roundedText} ${className}`}>
-      <ArrowIcon />
+      <ArrowIcon fill={textColor} />
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
         <path
           id="circlePath"
@@ -18,7 +19,7 @@ const RoundedText = ({ className }: IRoundedText) => {
           fill="transparent"
         />
         <g>
-          <text fill="#fff">
+          <text fill={`${textColor ? textColor : '#fff'}`}>
             <textPath xlinkHref="#circlePath">
               BROWSE OUR STORY BROWSE OUR STORY BROWSE OUR STORY
             </textPath>
