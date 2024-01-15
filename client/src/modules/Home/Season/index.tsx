@@ -9,6 +9,7 @@ import image1 from '@Images/season1.jpeg';
 import image2 from '@Images/season2.jpeg';
 import image3 from '@Images/season3.jpeg';
 import { cinzelFont } from '@/utils/fonts';
+import ButtonNavigate from '@/components/Button';
 
 const SeasonSection = () => {
   return (
@@ -32,12 +33,8 @@ const SeasonSection = () => {
               <p>
                 <span className={cinzelFont.className}>DER MOND</span> SERVICES
               </p>
-              <Link href={ROUTE_PATH.STORY}>
-                DISCOVER
-                <span>
-                  <ArrowIcon />
-                </span>
-              </Link>
+              
+              <ButtonNavigate href={ROUTE_PATH.STORY} text='DISCOVER'/>
             </div>
             <p className={`${s.seasonDesc_subContent} col-span-2 col-start-4`}>
               Customization Beyond Boundaries: Design is personal, and so is our

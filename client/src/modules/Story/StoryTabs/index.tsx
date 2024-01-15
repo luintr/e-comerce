@@ -72,10 +72,6 @@ const StoryTabs = () => {
     };
   }, [activeTab]);
 
-  const clickHandler = (id: number) => {
-    setActiveTab(id);
-  };
-
   return (
     <section className={s.storyTabs}>
       <Container className={s.container}>
@@ -84,7 +80,7 @@ const StoryTabs = () => {
             <div
               key={item.id}
               className={`${s.tabItem}`}
-              onClick={() => clickHandler(item.id)}
+              onClick={() => setActiveTab(item.id)}
               style={{ background: item.bg, color: item.text }}
               ref={el => (tabRefs.current[index] = el)}
             >
