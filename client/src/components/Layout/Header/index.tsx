@@ -9,10 +9,12 @@ import { useSelector } from 'react-redux';
 import ProfileHeader from './Profile';
 import { playfairFont } from '@/utils/fonts';
 import { CartIcon, Logo } from '@/components/Icons';
+import { useModelStore } from '@/store/zustandStore';
 
 const Header = (): React.ReactElement => {
   const [qtyItems, setQtyItems] = useState<[]>([]);
   const [user, setUser] = useState({});
+  const { setModelState } = useModelStore();
   // @ts-ignore:next-line
   const { cartItems } = useSelector(state => state.cart);
   // @ts-ignore:next-line
@@ -25,6 +27,7 @@ const Header = (): React.ReactElement => {
   useEffect(() => {
     setQtyItems(cartItems);
   }, [cartItems]);
+
   return (
     <header className={s.header}>
       <Container className={s.header_container}>
@@ -44,9 +47,9 @@ const Header = (): React.ReactElement => {
           <Link href={ROUTE_PATH.STORY} className={s.navigate_item}>
             OUR STORY
           </Link>
-          <Link href={ROUTE_PATH.GALLERY} className={s.navigate_item}>
+          {/* <Link href={ROUTE_PATH.GALLERY} className={s.navigate_item}>
             GALLERY
-          </Link>
+          </Link> */}
           <Link href={ROUTE_PATH.SHOP} className={s.navigate_item}>
             Shop
           </Link>
@@ -57,12 +60,12 @@ const Header = (): React.ReactElement => {
               Sign In
             </Link>
           )}
-          <Link href={ROUTE_PATH.CART} className={s.navigate_item}>
+          <div className={s.navigate_item} onClick={() => setModelState()}>
             <CartIcon />
             {qtyItems.length > 0 && (
               <span className={s.navigate_item_cartQtr}>{qtyItems.length}</span>
             )}
-          </Link>
+          </div>
         </div>
       </Container>
     </header>

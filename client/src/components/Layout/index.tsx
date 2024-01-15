@@ -6,6 +6,7 @@ import store from '@/store/store';
 import s from './style.module.scss';
 import Footer from './Footer';
 import { GridDebug } from './GridDebug';
+import CartModel from '../CartModel';
 
 type ILayout = {
   children: ReactNode;
@@ -19,6 +20,7 @@ const Layout = ({ children, className }: ILayout) => {
         <Header />
         {children}
         <Footer />
+        <CartModel />
         <GridDebug />
       </body>
     </Provider>
