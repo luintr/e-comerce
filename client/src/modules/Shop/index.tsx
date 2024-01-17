@@ -1,12 +1,13 @@
 import React from 'react';
 import s from './style.module.scss';
 import ProductList from './ProductList';
+import ShopHero from './ShopHero';
 
 const ShopModule = () => {
   return (
     <div className={s.shopModule}>
-      <div className={`${s.container} container`}>
-        <h1>Lastest Product</h1>
+      <ShopHero />
+      <div className={`${s.container} container grid grid-cols-12`}>
         <ProductList />
       </div>
     </div>

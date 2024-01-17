@@ -22,7 +22,7 @@ const ProductItem = ({ data }: { data: IProductItem }): React.ReactElement => {
   const { _id, image, name, price } = data;
 
   return (
-    <div className={`${s.productItem} col-span-3`}>
+    <div className={`${s.productItem}`}>
       <Link href={`/product/${_id}`}>
         <img className={s.productItem_image} src={image} alt={name} />
       </Link>
