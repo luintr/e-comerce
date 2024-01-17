@@ -15,7 +15,9 @@ const CartModel = () => {
 
   const { modelState, setModelToggle } = useModelStore();
 
+  const [user, setUser] = useState({});
   const [cartList, setCartList] = useState<ICartItem[]>([]);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -23,6 +25,12 @@ const CartModel = () => {
   const { cartItems } = useSelector(
     (state: { cart: { cartItems: ICartItem[] } }) => state.cart
   );
+  // @ts-ignore:next-line
+  const { userInfo } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    setUser(userInfo);
+  }, [userInfo]);
 
   useEffect(() => {
     setCartList(cartItems);
@@ -35,8 +43,12 @@ const CartModel = () => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    setModelToggle()
-    router.push('/login?redirect=/payment');
+    setModelToggle();
+    if (user) {
+      router.push('/payment');
+    } else {
+      router.push('/login?redirect=/payment');
+    }
   };
 
   return (
