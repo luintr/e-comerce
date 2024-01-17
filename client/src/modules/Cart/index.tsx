@@ -26,6 +26,7 @@ const CartModule = () => {
   useEffect(() => {
     setCartList(cartItems);
   }, [cartItems]);
+
   const addtoCartHandler = async (product: ICartItem, qty: number) => {
     dispatch(addToCart({ ...product, qty }));
   };
@@ -106,7 +107,7 @@ const CartModule = () => {
                     </Radio.Group>
                   </div>
 
-                  <p className={s.cartItem_price}>{item.price}</p>
+                  <p className={s.cartItem_price}>${item.price}</p>
                   <div
                     className={s.cartItem_delete}
                     onClick={() => removeFromCartHandler(item._id)}

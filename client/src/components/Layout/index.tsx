@@ -7,6 +7,7 @@ import s from './style.module.scss';
 import Footer from './Footer';
 import { GridDebug } from './GridDebug';
 import CartModel from '../CartModel';
+import { useModelStore } from '@/store/zustandStore';
 
 type ILayout = {
   children: ReactNode;
@@ -14,14 +15,18 @@ type ILayout = {
 };
 
 const Layout = ({ children, className }: ILayout) => {
+  const { modelState } = useModelStore();
+
   return (
     <Provider store={store}>
-      <body className={`${className} ${s.mainLayout}`}>
+      <body
+        className={`${className} ${s.mainLayout} ${modelState && s.overflow}`}
+      >
         <Header />
         {children}
         <Footer />
         <CartModel />
-        <GridDebug />
+        {process.env.NODE_ENV === 'development' && <GridDebug />}
       </body>
     </Provider>
   );

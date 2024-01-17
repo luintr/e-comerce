@@ -14,7 +14,7 @@ import { useModelStore } from '@/store/zustandStore';
 const Header = (): React.ReactElement => {
   const [qtyItems, setQtyItems] = useState<[]>([]);
   const [user, setUser] = useState({});
-  const { setModelState } = useModelStore();
+  const { setModelToggle } = useModelStore();
   // @ts-ignore:next-line
   const { cartItems } = useSelector(state => state.cart);
   // @ts-ignore:next-line
@@ -60,7 +60,7 @@ const Header = (): React.ReactElement => {
               Sign In
             </Link>
           )}
-          <div className={s.navigate_item} onClick={() => setModelState()}>
+          <div className={s.navigate_item} onClick={() => setModelToggle()}>
             <CartIcon />
             {qtyItems.length > 0 && (
               <span className={s.navigate_item_cartQtr}>{qtyItems.length}</span>

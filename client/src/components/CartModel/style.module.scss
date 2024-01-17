@@ -1,12 +1,70 @@
 .cartModel {
   position: fixed;
+  z-index: 3;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   right: 0;
-  max-width: rem(700px);
-  transform: translateX(100%);
-  transition: 0.4s all var(--easeOutQuart);
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+
+  &_close {
+    cursor: pointer;
+    position: absolute;
+    top: rem(20px);
+    right: rem(40px);
+    text-transform: uppercase;
+  }
+
+  .backdrop {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000, $alpha: 0.4);
+    transition: 0.4s all var(--easeOutQuart);
+    z-index: 1;
+    opacity: 0;
+  }
+
+  .model {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(700px);
+    height: 100vh;
+    transform: translateX(100%);
+    transition: 0.4s all var(--easeOutQuart);
+    background-color: var(--tan);
+    border: rem(1px) solid var(--black-08);
+    padding: rem(40px);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+
+    .cartList {
+      flex: 1;
+      height: rem(600px);
+      overflow: scroll;
+    }
+  }
 
   &.active {
-    transform: translateX(0);
+    pointer-events: initial;
+
+    .backdrop {
+      opacity: 1;
+    }
+
+    .model {
+      transform: translateX(0);
+    }
   }
 }

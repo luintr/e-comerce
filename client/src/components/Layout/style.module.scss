@@ -1,13 +1,17 @@
 .mainLayout {
   background: var(--tan);
 
+  &.overflow {
+    overflow: hidden;
+  }
+
   .header {
     height: rem(80px);
     position: relative;
     border-top: rem(1px) solid var(--black-08);
     border-bottom: rem(1px) solid var(--black-08);
     background-color: rgba($color: var(--tan), $alpha: 0.3);
-    z-index: 100;
+    z-index: 2;
 
     &_container {
       height: 100%;
