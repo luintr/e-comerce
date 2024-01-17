@@ -35,6 +35,7 @@ const CartModel = () => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
+    setModelToggle()
     router.push('/login?redirect=/payment');
   };
 
@@ -59,70 +60,72 @@ const CartModel = () => {
                     <div className={s.cartItem_img}>
                       <img src={item.image} alt="image" />
                     </div>
-                    <div>
-                      <div>
+                    <div className={s.cartItem_content}>
+                      <div className={s.wrapContent}>
                         <Link
                           href={`/product/${item._id}`}
                           className={s.cartItem_title}
                         >
                           {item.name}
                         </Link>
-                      </div>
-                      <div className={s.cartItem_qty}>
-                        <AntdSelect
-                          value={item.qty.toString()}
-                          onChange={value =>
-                            addtoCartHandler(item, Number(value))
-                          }
-                        >
-                          {Array.from(
-                            { length: item.countInStock },
-                            (_, index) => (
-                              <Option
-                                key={index}
-                                value={(index + 1).toString()}
-                              >
-                                {index + 1}
-                              </Option>
-                            )
-                          )}
-                        </AntdSelect>
-                      </div>
+                        <div className={s.wrapSelect}>
+                          <div className={s.cartItem_qty}>
+                            <AntdSelect
+                              value={item.qty.toString()}
+                              onChange={value =>
+                                addtoCartHandler(item, Number(value))
+                              }
+                            >
+                              {Array.from(
+                                { length: item.countInStock },
+                                (_, index) => (
+                                  <Option
+                                    key={index}
+                                    value={(index + 1).toString()}
+                                  >
+                                    {index + 1}
+                                  </Option>
+                                )
+                              )}
+                            </AntdSelect>
+                          </div>
 
-                      <div>
-                        <Radio.Group
-                          value={item.size}
-                          onChange={e => {
-                            addtoCartHandler(
-                              { ...item, size: e.target.value },
-                              item.qty
-                            );
-                          }}
-                        >
-                          <Radio.Button value="S">S</Radio.Button>
-                          <Radio.Button value="M">M</Radio.Button>
-                          <Radio.Button value="L">L</Radio.Button>
-                        </Radio.Group>
-                      </div>
+                          <div className={s.cartItem_size}>
+                            <Radio.Group
+                              value={item.size}
+                              onChange={e => {
+                                addtoCartHandler(
+                                  { ...item, size: e.target.value },
+                                  item.qty
+                                );
+                              }}
+                            >
+                              <Radio.Button value="S">S</Radio.Button>
+                              <Radio.Button value="M">M</Radio.Button>
+                              <Radio.Button value="L">L</Radio.Button>
+                            </Radio.Group>
+                          </div>
+                        </div>
 
-                      <div>
-                        <Radio.Group
-                          value={item.color}
-                          onChange={e => {
-                            addtoCartHandler(
-                              { ...item, color: e.target.value },
-                              item.qty
-                            );
-                          }}
-                        >
-                          <Radio.Button value="be">Be</Radio.Button>
-                          <Radio.Button value="brown">Brown</Radio.Button>
-                          <Radio.Button value="black">Black</Radio.Button>
-                          <Radio.Button value="white">White</Radio.Button>
-                        </Radio.Group>
-                      </div>
+                        <div className={s.cartItem_color}>
+                          <Radio.Group
+                            value={item.color}
+                            onChange={e => {
+                              addtoCartHandler(
+                                { ...item, color: e.target.value },
+                                item.qty
+                              );
+                            }}
+                          >
+                            <Radio.Button value="be">Be</Radio.Button>
+                            <Radio.Button value="brown">Brown</Radio.Button>
+                            <Radio.Button value="black">Black</Radio.Button>
+                            <Radio.Button value="white">White</Radio.Button>
+                          </Radio.Group>
+                        </div>
 
-                      <p className={s.cartItem_price}>${item.price}</p>
+                        <p className={s.cartItem_price}>1 x ${item.price}</p>
+                      </div>
                       <div
                         className={s.cartItem_delete}
                         onClick={() => removeFromCartHandler(item._id)}
@@ -134,10 +137,10 @@ const CartModel = () => {
                 ))}
               </div>
               <div className={`${s.cartInfo}`}>
-                <div>
-                  Subtotal
-                  <p>{cartItems.reduce((acc, item) => acc + item.qty, 0)}</p>
-                  <p>
+                <div className={s.cartInfo_subTotal}>
+                  <p className={s.title}>Subtotal</p>
+                  {/* <p>{cartItems.reduce((acc, item) => acc + item.qty, 0)}</p> */}
+                  <p className={s.content}>
                     $
                     {cartItems
                       .reduce((acc, item) => acc + item.qty * item.price, 0)
@@ -145,7 +148,7 @@ const CartModel = () => {
                   </p>
                 </div>
 
-                <div>
+                <div className={s.cartInfo_btn}>
                   <button
                     type="button"
                     disabled={cartItems.length === 0}
