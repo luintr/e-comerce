@@ -46,11 +46,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow-y: scroll;
 
     .cartList {
       flex: 1;
-      overflow: scroll;
+      height: auto;
+      overflow-y: scroll;
 
       .cartItem {
         display: flex;

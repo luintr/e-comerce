@@ -66,7 +66,7 @@ const CartModel = () => {
             </div>
           ) : (
             <>
-              <div className={`${s.cartList}`}>
+              <div className={`${s.cartList}`} data-lenis-prevent>
                 {cartList.map(item => (
                   <div key={item._id} className={s.cartItem}>
                     <div className={s.cartItem_img}>
